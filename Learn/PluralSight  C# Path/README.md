@@ -18,11 +18,11 @@
 
 - Advanced
   - [x] Getting Started with Asynchronous Programming in .NET (Filip Ekberg)
-  - [] Automated Testing with MSTest V2 (Jason Roberts)
-  - [] C# Concurrent Collections (Simon Robinson)
+  - [x] Automated Testing with MSTest V2 (Jason Roberts)
+  - [~] C# Concurrent Collections (Simon Robinson)
   - [x] Dependency Injection On-Ramp (Jeremy Clark)
-  - [] C# Tips and Traps (Jason Roberts)
-  - [] C# Tips and Traps 2 (Jason Roberts)
+  - [~] C# Tips and Traps (Jason Roberts)
+  - [~] C# Tips and Traps 2 (Jason Roberts)
 
 - More .NET Resources
   - [x] C# From Scratch - Part 2 (Jesse Liberty)
@@ -34,5 +34,5 @@
 - Design & Architecture
   - [x] Clean Architecture: Patterns, Practices, and Principles (Matthew Renze)
   - [x] SOLID Principles of Object Oriented Design (Steve Smith)
-  - [x] Domain-Driven Design Fundamentals
+  - [~] Domain-Driven Design Fundamentals
   - [x] Dependency Injection On-Ramp (Jeremy Clark)
