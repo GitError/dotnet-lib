@@ -8,6 +8,11 @@
   - [x] Working with Nulls in C# (Jason Roberts)
   - [x] C# Best Practices: Collections and Generics (Deborah Kurata)
 
+  NOV.2019 ADDONS
+
+  - [x] C# Fundamentals (Scott Allen -- Oct. 2019 update)
+  - [ ] 
+
 - Intermediate
   - [x] Object-Oriented Programming Fundamentals in C# (Deborah Kurata)
   - [x] C# Interfaces (Jeremy Clark)
