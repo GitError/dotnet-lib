@@ -6,4 +6,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ClosedXML.Report" Version="0.1.2" />
+  </ItemGroup>
+
 </Project>
