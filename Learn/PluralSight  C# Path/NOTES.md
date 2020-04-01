@@ -83,12 +83,29 @@ int param1 = int.TryParse(args[0]);
 
 CTRL + .  is used to bring context menu
 
-### Access modifiers
+### Access Modifiers
+
 ```csharp
-    public    // code outside of this class will have access to that field
-    private   // default, available to code withing the class definition
-    protected // accessible withing the same namespace
-    static    // not associated with an instance but the type
+public    // code outside of this class will have access to that field; Name
+private   // default, available to code withing the class definition; name
+protected // accessible withing the same namespace
+static    // not associated with an instance but the type
+```
+
+### Reference vs Value Type
+
+```csharp
+var b = new Book("Grades"); // reference type, b is an address to the value
+var x = 3; // value type, as x holds actual value not a pointer to the value
+
+Object.ReferenceEquals(ins1, ins2); // check if the same instance
+
+// WHEN PASSING PARAMETERS INTO METHODS IT'S ALWAYS BY VALUE UNLESS REF KEYWORD IS USED
+public void PassByValue(int x) {}
+public void PassByRef(ref int x){}
+
+// OUT UNLIKE REF ASSUMES THE  VARIABLE IS ALREADY INITIALIZED
+public void PassOut(out int x){}
 ```
 
 ## OOP Basics
@@ -100,9 +117,9 @@ CTRL + .  is used to bring context menu
     Abstraction -- generic rather than concrete
 
 ```csharp
-namespace GradeBook 
+namespace GradeBook
 {
-    public class Book 
+    public class Book
     {
         int Id {get;set;}
         double Grade {get;set;}
@@ -114,5 +131,5 @@ namespace GradeBook
         Grades += grade;  // this. is optional
     }
 }
-```
 
+```
