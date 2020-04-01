@@ -36,8 +36,9 @@ namespace ConvertToExcel
             {
                 foreach (string textFile in lbFiles.Items)
                 {
-                    var logData = _excelSrvc.ReadLogData(textFile);
-                    if (_excelSrvc.SaveLogDataToExcel(logData))
+                    var logData = _excelSrvc.ReadLog(textFile);
+
+                    if (_excelSrvc.SaveLogExcel(logData))
                         lbConvertedFiles.Items.Add(logData.FilePath);
                     else
                         lbConvertedFiles.Items.Add("Error converting: " + logData.FilePath);

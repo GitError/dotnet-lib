@@ -2,9 +2,9 @@
 
 namespace ConvertToExcel.Models
 {
-    public class LogDataRow
+    public class LogRecord
     {
-        public LogDataRow()
+        public LogRecord()
         {
 
         }

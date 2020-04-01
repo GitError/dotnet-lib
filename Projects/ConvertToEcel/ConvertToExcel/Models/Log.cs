@@ -2,15 +2,15 @@
 
 namespace ConvertToExcel.Models
 {
-    public class LogDataSet
+    public class Log
     {
-        public LogDataSet()
+        public Log()
         {
-            Rows = new List<LogDataRow>();
+            Records = new List<LogRecord>();
         }
 
         public string FilePath { get; set; }
 
-        public List<LogDataRow> Rows { get; set; }
+        public List<LogRecord> Records { get; set; }
     }
 }

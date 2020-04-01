@@ -14,14 +14,14 @@ namespace ConvertToExcel.Services
 
         }
 
-        public bool SaveLogDataToExcel(LogDataSet ds)
+        public bool SaveLogExcel(Log ds)
         {
             try
             {
                 var wb = new XLWorkbook();
                 var ws = wb.Worksheets.Add("Log Data");
 
-                ws.Cell(2, 1).InsertData(ds.Rows.ToList());
+                ws.Cell(2, 1).InsertData(ds.Records.ToList());
 
                 var header = AppSettings.LogFileHeader.Split(",").ToArray();
                 ws.Rows(1, 1).Style.Font.Bold = true;
@@ -42,25 +42,24 @@ namespace ConvertToExcel.Services
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
-                return false;
+                throw exception;
             }
         }
 
-        public LogDataSet ReadLogData(string filePath)
+        public Log ReadLog(string filePath)
         {
             try
             {
                 int asInt = 0;
                 DateTime asDt = DateTime.MinValue;
 
-                return new LogDataSet
+                return new Log
                 {
                     FilePath = filePath,
-                    Rows = File.ReadAllLines(filePath)
+                    Records = File.ReadAllLines(filePath)
                          .Skip(1)
                         .Select(x => x.Split(','))
-                        .Select(x => new LogDataRow
+                        .Select(x => new LogRecord
                         {
                             JOB_ID = int.TryParse(x[0], out asInt) ? asInt : 0,
                             LOAD_STEP = x[1],
