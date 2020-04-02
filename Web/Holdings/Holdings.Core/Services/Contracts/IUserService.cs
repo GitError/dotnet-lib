@@ -12,7 +12,7 @@ namespace Holdings.Core.Services.Contracts
 
         Task<User> GetByUsername(string username);
          
-        Task<Holding> Create(User user);
+        Task<User> Create(User user);
 
         Task Update(User userToBeUpdated, User user);
 

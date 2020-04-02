@@ -28,13 +28,16 @@ namespace Holdings.Api
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<HoldingsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), x => x.MigrationsAssembly("Holdings.Data")));
 
+            services.AddTransient<IUserService, UserService>();
+
             services.AddTransient<IPortfolioService, PortfolioService>();
+            services.AddTransient<IModelService, ModelService>();
+            services.AddTransient<IHoldingService, HoldingService>();
 
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Holdings", Version = "v1" });
             });
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -12,7 +12,7 @@ namespace Holdings.Core.Services.Contracts
 
         Task<IEnumerable<Holding>> GetByModelId(int portfolioId);
 
-        Task<Holding> Create(Holding Holding);
+        Task<Holding> Create(Holding holding);
 
         Task Update(Holding holdingToBeUpdated, Holding holding);
 

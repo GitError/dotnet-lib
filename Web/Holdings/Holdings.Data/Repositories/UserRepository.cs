@@ -13,7 +13,7 @@ namespace Holdings.Data.Repositories
             : base(context)
         { }
         
-        public async Task<User> GetByNameAsync(string username)
+        public async Task<User> GetByUsernameAsync(string username)
         {
             return await DbContext.Users.SingleOrDefaultAsync(x => x.Username.Contains(username));
         }

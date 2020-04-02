@@ -5,6 +5,6 @@ namespace Holdings.Core.Repositories.Contracts
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<User> GetByNameAsync(string username);
+        Task<User> GetByUsernameAsync(string username);
     }
 }
