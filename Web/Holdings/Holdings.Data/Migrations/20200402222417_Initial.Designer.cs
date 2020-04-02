@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Holdings.Data.Migrations
 {
     [DbContext(typeof(HoldingsDbContext))]
-    [Migration("20200402044525_InitialModel")]
-    partial class InitialModel
+    [Migration("20200402222417_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace Holdings.Data.Migrations
 
             modelBuilder.Entity("Holdings.Core.Models.Holding", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("HoldingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
@@ -31,7 +31,7 @@ namespace Holdings.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("BuyPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("DECIMAL(18,4)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(500)")
@@ -40,7 +40,7 @@ namespace Holdings.Data.Migrations
                     b.Property<int>("HoldingType")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ModelId")
+                    b.Property<int>("ModelId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -50,7 +50,7 @@ namespace Holdings.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("HoldingId");
 
                     b.HasIndex("ModelId");
 
@@ -59,7 +59,7 @@ namespace Holdings.Data.Migrations
 
             modelBuilder.Entity("Holdings.Core.Models.Model", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ModelId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
@@ -75,10 +75,10 @@ namespace Holdings.Data.Migrations
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<int?>("PortfolioId")
+                    b.Property<int>("PortfolioId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ModelId");
 
                     b.HasIndex("PortfolioId");
 
@@ -87,7 +87,7 @@ namespace Holdings.Data.Migrations
 
             modelBuilder.Entity("Holdings.Core.Models.Portfolio", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PortfolioId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
@@ -99,27 +99,71 @@ namespace Holdings.Data.Migrations
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PortfolioId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Portfolio");
+                });
+
+            modelBuilder.Entity("Holdings.Core.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
-                    b.ToTable("Portfolio");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Holdings.Core.Models.Holding", b =>
                 {
                     b.HasOne("Holdings.Core.Models.Model", "Model")
                         .WithMany("Holdings")
-                        .HasForeignKey("ModelId");
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Holdings.Core.Models.Model", b =>
                 {
                     b.HasOne("Holdings.Core.Models.Portfolio", "Portfolio")
                         .WithMany("Models")
-                        .HasForeignKey("PortfolioId");
+                        .HasForeignKey("PortfolioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Holdings.Core.Models.Portfolio", b =>
+                {
+                    b.HasOne("Holdings.Core.Models.User", "User")
+                        .WithMany("Portfolios")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

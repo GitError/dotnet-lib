@@ -5,12 +5,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Holdings.Core\Holdings.Core.csproj" />
     <ProjectReference Include="..\Holdings.Services\Holdings.Services.csproj" />
     <ProjectReference Include="..\Holdings.Data\Holdings.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <PropertyGroup>

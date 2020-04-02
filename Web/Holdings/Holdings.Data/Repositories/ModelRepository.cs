@@ -1,8 +1,10 @@
 ﻿using Holdings.Core.Models;
-using Holdings.Core.Repositories;
+using Holdings.Core.Repositories.Contracts;
 using Holdings.Data;
 using Holdings.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Portfolios.Data.Repositories
@@ -14,15 +16,10 @@ namespace Portfolios.Data.Repositories
         public ModelRepository(HoldingsDbContext context)
             : base(context)
         { }
-
-        public Task<Model> GetByIdAcyns(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IEnumerable<Model>> GetByPortfolioId(string userId)
-        {
-            throw new System.NotImplementedException();
+        
+        public async Task<IEnumerable<Model>> GetByPortfolioIdAsync(int portfolioId)
+        { 
+            return await DbContext.Models.Where(x => x.Portfolio.PortfolioId == portfolioId).ToListAsync();
         }
     }
 }

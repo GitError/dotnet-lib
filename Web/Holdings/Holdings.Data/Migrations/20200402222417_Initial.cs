@@ -1,68 +1,92 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Holdings.Data.Migrations
 {
-    public partial class InitialModel : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Portfolio",
+                name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 250, nullable: false),
-                    UserId = table.Column<string>(nullable: false)
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: false),
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Portfolio", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Portfolio",
+                columns: table => new
+                {
+                    PortfolioId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 250, nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Portfolio", x => x.PortfolioId);
+                    table.ForeignKey(
+                        name: "FK_Portfolio_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Model",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    ModelId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 250, nullable: false),
                     Description = table.Column<string>(maxLength: 500, nullable: true),
-                    PortfolioId = table.Column<int>(nullable: true)
+                    PortfolioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Model", x => x.Id);
+                    table.PrimaryKey("PK_Model", x => x.ModelId);
                     table.ForeignKey(
                         name: "FK_Model_Portfolio_PortfolioId",
                         column: x => x.PortfolioId,
                         principalTable: "Portfolio",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "PortfolioId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Holding",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    HoldingId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HoldingType = table.Column<int>(nullable: false),
                     Symbol = table.Column<string>(nullable: false),
                     Description = table.Column<string>(maxLength: 500, nullable: true),
                     Quantity = table.Column<int>(nullable: false),
-                    BuyPrice = table.Column<decimal>(nullable: false),
-                    ModelId = table.Column<int>(nullable: true)
+                    BuyPrice = table.Column<decimal>(type: "DECIMAL(18,4)", nullable: false),
+                    ModelId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Holding", x => x.Id);
+                    table.PrimaryKey("PK_Holding", x => x.HoldingId);
                     table.ForeignKey(
                         name: "FK_Holding_Model_ModelId",
                         column: x => x.ModelId,
                         principalTable: "Model",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "ModelId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -74,6 +98,11 @@ namespace Holdings.Data.Migrations
                 name: "IX_Model_PortfolioId",
                 table: "Model",
                 column: "PortfolioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Portfolio_UserId",
+                table: "Portfolio",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -86,6 +115,9 @@ namespace Holdings.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Portfolio");
+
+            migrationBuilder.DropTable(
+                name: "User");
         }
     }
 }

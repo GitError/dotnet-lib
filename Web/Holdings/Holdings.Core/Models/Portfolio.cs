@@ -4,14 +4,14 @@ namespace Holdings.Core.Models
 {
     public class Portfolio
     {
-        public int Id { get; set; }
+        public int PortfolioId { get; set; }
 
         public string Name { get; set; }
 
-        public string UserId { get; set; } 
-        
-        // implement IdentityUser -- GUID
+        public User User { get; set; }
 
+        public int UserId { get; set; }
+        
         public IEnumerable<Model> Models { get; set; }
     }
 }

@@ -12,6 +12,8 @@ namespace Holdings.Data
 
         public DbSet<Holding> Holdings { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         public HoldingsDbContext(DbContextOptions<HoldingsDbContext> options)
             : base(options)
         {
@@ -22,7 +24,8 @@ namespace Holdings.Data
             builder
                 .ApplyConfiguration(new PortfolioConfig())
                 .ApplyConfiguration(new ModelConfig())
-                .ApplyConfiguration(new HoldingConfig());
+                .ApplyConfiguration(new HoldingConfig())
+                .ApplyConfiguration(new UserConfig());
         }
     }
 }

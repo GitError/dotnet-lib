@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Holdings.Core.Services
+namespace Holdings.Core.Services.Contracts
 {
     public interface IPortfolioService
     {
@@ -10,7 +10,7 @@ namespace Holdings.Core.Services
 
         Task<Portfolio> GetById(int id);
 
-        Task<IEnumerable<Portfolio>> GetByUserId(string userId);
+        Task<IEnumerable<Portfolio>> GetByUserId(int userId);
 
         Task<Portfolio> Create(Portfolio portfolio);
 

@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Holdings.Core.Repositories
+namespace Holdings.Core.Repositories.Contracts
 {
-    public interface IHoldingRepository
+    public interface IHoldingRepository : IRepository<Holding>
     {
-        Task<IEnumerable<Holding>> GetAllAsync();
-
-        Task<Holding> GetByIdAcyns(int id);
-
-        Task<IEnumerable<Holding>> GetByModelId(int modelId);
+        Task<IEnumerable<Holding>> GetByModelIdAsync(int modelId);
     }
 }

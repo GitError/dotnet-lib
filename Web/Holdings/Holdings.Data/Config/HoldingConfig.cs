@@ -9,10 +9,10 @@ namespace Holdings.Data.Config
         public void Configure(EntityTypeBuilder<Holding> builder)
         {
             builder
-                .HasKey(m => m.Id);
+                .HasKey(m => m.HoldingId);
 
             builder
-                .Property(m => m.Id)
+                .Property(m => m.HoldingId)
                 .UseIdentityColumn();
 
             builder
@@ -29,11 +29,12 @@ namespace Holdings.Data.Config
 
             builder
                 .Property(m => m.BuyPrice)
+                .HasColumnType("DECIMAL(18,4)")
                 .IsRequired();
 
             builder
                 .Property(m => m.Description)
-                .HasMaxLength(500); 
+                .HasMaxLength(500);
 
             builder
                 .ToTable("Holding");

@@ -9,10 +9,10 @@ namespace Holdings.Data.Config
         public void Configure(EntityTypeBuilder<Model> builder)
         {
             builder
-                .HasKey(m => m.Id);
+                .HasKey(m => m.ModelId);
 
             builder
-                .Property(m => m.Id)
+                .Property(m => m.ModelId)
                 .UseIdentityColumn();
 
             builder
@@ -25,8 +25,8 @@ namespace Holdings.Data.Config
                 .HasMaxLength(500);
 
             builder
-               .HasMany(x => x.Holdings)
-               .WithOne(x => x.Model);
+                .HasMany(c => c.Holdings)
+                .WithOne(u => u.Model);
 
             builder
                 .ToTable("Model");

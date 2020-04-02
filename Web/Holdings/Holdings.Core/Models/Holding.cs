@@ -1,12 +1,10 @@
-﻿using Holdings.Core.Common;
-
-namespace Holdings.Core.Models
+﻿namespace Holdings.Core.Models
 {
     public class Holding
     {
-        public int Id { get; set; }
+        public int HoldingId { get; set; }
 
-        public HoldingType HoldingType { get; set; }
+        public int HoldingType { get; set; }
 
         public string Symbol { get; set; }
 
@@ -17,5 +15,8 @@ namespace Holdings.Core.Models
         public decimal BuyPrice { get; set; }
 
         public Model Model { get; set; }
+
+        public int ModelId { get; set; }
+
     }
 }

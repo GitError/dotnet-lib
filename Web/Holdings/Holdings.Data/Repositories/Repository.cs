@@ -1,4 +1,4 @@
-﻿using Holdings.Core.Repositories;
+﻿using Holdings.Core.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +16,7 @@ namespace Holdings.Data.Repositories
         {
             this.Context = context;
         }
+
         public async Task AddAsync(TEntity entity)
         {
             await Context.Set<TEntity>().AddAsync(entity);

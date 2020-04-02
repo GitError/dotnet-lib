@@ -1,8 +1,8 @@
 ﻿using Holdings.Core.Models;
-using Holdings.Core.Repositories;
+using Holdings.Core.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Holdings.Data.Repositories
@@ -15,19 +15,9 @@ namespace Holdings.Data.Repositories
             : base(context)
         { }
 
-        public new async Task<IEnumerable<Holding>> GetAllAsync()
+        public async Task<IEnumerable<Holding>> GetByModelIdAsync(int modelId)
         {
-            return await DbContext.Holdings.ToListAsync();
-        }
-
-        public async Task<Holding> GetByIdAcyns(int id)
-        {
-            return await DbContext.Holdings.SingleOrDefaultAsync(x => x.Id == id);
-        }
-
-        public Task<IEnumerable<Holding>> GetByModelId(int modelId)
-        {
-            throw new NotImplementedException();
+            return await DbContext.Holdings.Where(x => x.Model.ModelId == modelId).ToListAsync();
         }
     }
 }

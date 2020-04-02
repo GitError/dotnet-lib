@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Holdings.Core.Services
+namespace Holdings.Core.Services.Contracts
 {
     public interface IModelService
     {

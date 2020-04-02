@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Holdings.Core.Repositories
+namespace Holdings.Core.Repositories.Contracts
 {
     public interface IUnitOfWork : IDisposable
     {
@@ -10,6 +10,8 @@ namespace Holdings.Core.Repositories
         IModelRepository Models { get; }
 
         IHoldingRepository Holdings { get; }
+
+        IUserRepository Users { get; }
 
         Task<int> CommitAsync();
     }

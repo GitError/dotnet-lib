@@ -9,25 +9,21 @@ namespace Holdings.Data.Config
         public void Configure(EntityTypeBuilder<Portfolio> builder)
         {
             builder
-                .HasKey(m => m.Id);
+                .HasKey(m => m.PortfolioId);
 
             builder
-                .Property(m => m.Id)
+                .Property(m => m.PortfolioId)
                 .UseIdentityColumn();
 
             builder
-               .Property(m => m.UserId)
-               .IsRequired();
-
+               .Property(m => m.Name)
+               .IsRequired()
+               .HasMaxLength(250);
+             
             builder
-                .Property(m => m.Name)
-                .IsRequired()
-                .HasMaxLength(250);
-
-            builder
-                .HasMany(x => x.Models)
-                .WithOne(x => x.Portfolio);
-
+               .HasMany(c => c.Models)
+               .WithOne(u => u.Portfolio);
+             
             builder
                 .ToTable("Portfolio");
         }
