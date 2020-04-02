@@ -32,7 +32,7 @@ namespace ConvertToExcel.Services
                 ws.Columns().Width = 18;
                 ws.Columns().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
 
-                ws.SheetView.Freeze(1, 17);
+                ws.SheetView.Freeze(1, 1);
 
                 ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
 
