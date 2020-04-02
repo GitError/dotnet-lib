@@ -2,4 +2,4 @@
 
 ## Modules
 
-- [~] Design Patterns in C# and .NET (Dmitri Nesteruk)
+- [x] Design Patterns in C# and .NET (Dmitri Nesteruk)
