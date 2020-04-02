@@ -33,8 +33,7 @@ namespace Holdings.Data.Config
 
             builder
                 .Property(m => m.Description)
-                .HasMaxLength(500);
-             
+                .HasMaxLength(500); 
 
             builder
                 .ToTable("Holding");

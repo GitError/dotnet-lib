@@ -8,12 +8,10 @@ namespace Holdings.Core.Models
 
         public string Name { get; set; }
 
-        public bool IsPrivate { get; set; }
-
         public string Description { get; set; }
 
         public IEnumerable<Holding> Holdings { get; set; }
 
-        public IEnumerable<Portfolio> Portfolios { get; set; }
+        public Portfolio Portfolio { get; set; }
     }
 }

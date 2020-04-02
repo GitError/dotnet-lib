@@ -16,13 +16,17 @@ namespace Holdings.Data.Config
                 .UseIdentityColumn();
 
             builder
-               .Property(m => m.UserName)
+               .Property(m => m.UserId)
                .IsRequired();
 
             builder
                 .Property(m => m.Name)
                 .IsRequired()
                 .HasMaxLength(250);
+
+            builder
+                .HasMany(x => x.Models)
+                .WithOne(x => x.Portfolio);
 
             builder
                 .ToTable("Portfolio");

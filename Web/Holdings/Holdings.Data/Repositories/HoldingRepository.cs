@@ -9,10 +9,7 @@ namespace Holdings.Data.Repositories
 {
     public class HoldingRepository : Repository<Holding>, IHoldingRepository
     {
-        private HoldingsDbContext DbContext
-        {
-            get { return Context as HoldingsDbContext; }
-        }
+        private HoldingsDbContext DbContext => Context as HoldingsDbContext;
 
         public HoldingRepository(HoldingsDbContext context)
             : base(context)

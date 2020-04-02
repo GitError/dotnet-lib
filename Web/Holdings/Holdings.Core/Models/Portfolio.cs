@@ -8,7 +8,9 @@ namespace Holdings.Core.Models
 
         public string Name { get; set; }
 
-        public string UserName { get; set; }
+        public string UserId { get; set; } 
+        
+        // implement IdentityUser -- GUID
 
         public IEnumerable<Model> Models { get; set; }
     }

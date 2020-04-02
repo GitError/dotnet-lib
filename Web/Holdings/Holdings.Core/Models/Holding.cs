@@ -1,5 +1,4 @@
 ﻿using Holdings.Core.Common;
-using System.Collections.Generic;
 
 namespace Holdings.Core.Models
 {
@@ -17,6 +16,6 @@ namespace Holdings.Core.Models
 
         public decimal BuyPrice { get; set; }
 
-        public IEnumerable<Model> Models { get; set; }
+        public Model Model { get; set; }
     }
 }

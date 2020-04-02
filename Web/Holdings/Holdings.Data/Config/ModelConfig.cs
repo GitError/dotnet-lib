@@ -25,6 +25,10 @@ namespace Holdings.Data.Config
                 .HasMaxLength(500);
 
             builder
+               .HasMany(x => x.Holdings)
+               .WithOne(x => x.Model);
+
+            builder
                 .ToTable("Model");
         }
     }

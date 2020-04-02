@@ -3,8 +3,10 @@
     public enum HoldingType
     {
         Stock,
-        Option,
+        Bond,
         Index,
-        Crypto
+        Crypto,
+        Cash_FX,
+        Other
     }
 }
