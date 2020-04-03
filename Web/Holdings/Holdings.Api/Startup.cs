@@ -37,7 +37,7 @@ namespace Holdings.Api
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Holdings", Version = "v1" });
+                options.SwaggerDoc("v01", new OpenApiInfo { Title = "Holdings", Version = "v0.1" });
             });
 
             services.AddAutoMapper(typeof(Startup));
@@ -65,7 +65,7 @@ namespace Holdings.Api
             app.UseSwaggerUI(c =>
             {
                 c.RoutePrefix = "";
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Holdings V1");
+                c.SwaggerEndpoint("/swagger/v01/swagger.json", "Holdings v0.1");
             });
         }
     }

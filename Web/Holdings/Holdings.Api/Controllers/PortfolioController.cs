@@ -4,6 +4,7 @@ using Holdings.Api.Resources.Validation;
 using Holdings.Core.Models;
 using Holdings.Core.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,11 +16,13 @@ namespace Holdings.Api.Controllers
     {
         private readonly IPortfolioService _service;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public PortfolioController(IPortfolioService service, IMapper mapper)
+        public PortfolioController(IPortfolioService service, IMapper mapper, ILogger logger)
         {
             _service = service;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet("")]
@@ -56,6 +59,32 @@ namespace Holdings.Api.Controllers
             var resource = _mapper.Map<Portfolio, PortfolioRes>(portfolio);
 
             return Ok(resource);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ModelRes>> Update(int id, [FromBody] SavePortfolioRes savePortfolioRes)
+        {
+            var validator = new SavePortfolioValidator();
+            var validationResult = await validator.ValidateAsync(savePortfolioRes);
+
+            var requestIsInvalid = id == 0 || !validationResult.IsValid;
+
+            if (requestIsInvalid)
+                return BadRequest(validationResult.Errors);
+
+            var portfolioToBeUpdate = await _service.GetById(id);
+
+            if (portfolioToBeUpdate == null)
+                return NotFound();
+
+            var portfolio = _mapper.Map<SavePortfolioRes, Portfolio>(savePortfolioRes);
+
+            await _service.Update(portfolioToBeUpdate, portfolio);
+
+            var updatedPortfolio = await _service.GetById(id);
+            var updatedPortfolioResource = _mapper.Map<Portfolio, PortfolioRes>(updatedPortfolio);
+
+            return Ok(updatedPortfolioResource);
         }
 
         [HttpDelete("{id}")]
