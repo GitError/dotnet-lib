@@ -1,7 +1,13 @@
-## Solution Summary
+# Holdings App
+
+## Solution Overview
+
 A simple nTier .NET Core 3.1 application allowing its users to build portfolios for various asset class holdings.
 
-Finished:
+### Changelog
+
+Complete:
+
 - [x] Base layout/ template (.data, .core, .service, .api, .web-tbd)
 - [x] Repository + Unit of Work + DI 
 - [x] EF Core with MSSQL/ localDb
@@ -10,6 +16,8 @@ Finished:
 - [x] Custom identity
 
 To do:
+
 - [ ] Add front end - Angluar or React using .api
 - [ ] Add D3.js heat maps
-- [ ] Extend and refactor :sweat_smile:
+- [ ] Extend and refactor :sweat_smile
+
