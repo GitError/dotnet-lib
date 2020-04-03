@@ -20,4 +20,4 @@
 
 - :link: [Pluralsight - C#, .NET Core Paths](Learn/PluralSight/)
 - :link: [Udemy - Design Patterns in C# and .NET ](Learn/LinkedIn/)
-- :link: [Udemy - C#, .NET Core Paths](Learn/Learn/)
+- :link: [Udemy - C#, .NET Core Paths](Learn/Udemy/)
