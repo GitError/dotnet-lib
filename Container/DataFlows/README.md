@@ -6,7 +6,7 @@
 
 Complete:
 
-- [ x ] Base layout/ template (.data, .core, .service, .api, .web-tbd)
+- [x] Base layout/ template (.data, .core, .service, .api, .web-tbd)
 
 To do:
 
