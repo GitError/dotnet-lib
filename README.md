@@ -1,15 +1,20 @@
 #  
 
-## .NET Projects/ Notes
+## .NET Apps & Notes
 
 ### Web
 
-- [x] :link: [Holdings](Web/Holdings/)
-- [x] :link: [DataFlows](Web/DataFlows/)
+- [x] :link: [Holdings](Web/Holdings/) - CORE (3.1), API, Angular
+- [x] :link: [RegulatoryReporting](Web/RegulatoryReporting/) - CORE (3.1), API, MVC
 
 ### Desktop
 
-- [x] [Holdings](Web/Holdings/)
+- [x] link: [ConvertToExcel](WPF/ConvertToExcel/) - .NET CORE (3.1), WPF
+- [x] link: [ConvertToExcelFramework](WPF/ConvertToExcelFramework/) - FRAMEWORK (4.7.2), WPF
+
+### Containerized
+
+- [x] :link: [DataFlows](Container/DataFlows/) - CORE (3.1), WorkerService, API, DDD Sample
 
 ### Study Notes/ Tutorials
 
