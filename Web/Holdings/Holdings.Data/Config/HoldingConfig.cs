@@ -16,7 +16,7 @@ namespace Holdings.Data.Config
                 .UseIdentityColumn();
 
             builder
-                .Property(m => m.HoldingType)
+                .Property(m => m.AssetClass)
                 .IsRequired();
 
             builder

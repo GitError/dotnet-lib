@@ -1,10 +1,10 @@
-﻿namespace Holdings.Core.Models
+﻿namespace Holdings.Api.Resources
 {
-    public class Holding
+    public class HoldingRes
     {
         public int HoldingId { get; set; }
 
-        public int AssetClass { get; set; }
+        public int AccetClass { get; set; }
 
         public string Symbol { get; set; }
 
@@ -14,8 +14,8 @@
 
         public decimal BuyPrice { get; set; }
 
-        public Model Model { get; set; }
+        public ModelRes Model { get; set; }
 
-        public int ModelId { get; set; } 
+        public int ModelId { get; set; }
     }
 }

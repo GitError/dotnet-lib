@@ -26,7 +26,7 @@ namespace Holdings.Services
         {
             holdingToBeUpdated.BuyPrice = holding.BuyPrice;
             holdingToBeUpdated.Description = holding.Description;
-            holdingToBeUpdated.HoldingType = holding.HoldingType;
+            holdingToBeUpdated.AssetClass = holding.AssetClass;
             holdingToBeUpdated.Quantity = holding.Quantity;
             holdingToBeUpdated.Symbol = holding.Symbol;
             holdingToBeUpdated.ModelId = holding.ModelId;

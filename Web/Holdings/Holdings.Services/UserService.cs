@@ -24,8 +24,6 @@ namespace Holdings.Services
 
         public async Task Update(User userToBeUpdated, User user)
         {
-            userToBeUpdated.FirstName = user.FirstName;
-            userToBeUpdated.LastName = user.LastName;
             userToBeUpdated.PasswordHash = user.PasswordHash;
             userToBeUpdated.PasswordSalt = user.PasswordSalt;
 

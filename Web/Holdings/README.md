@@ -1,7 +1,12 @@
 ## Solution Summary
-A simple nTier .NET Core application allowing users to build different holding models for their portfolio.
+A simple nTier .NET Core 3.1 application allowing its users to build portfolios for various asset class holdings.
 
-- [x] Repository + Unit of Work patterns using EF Core on MSSQL/ localDb
-- [x] AutoMapper for mapping models into API resources/ view models
-- [x] Swagger for API UI
-- [ ] JavaSctipt front end / react.js
+Applied Pattens + 3rd Party Packages 
+- [x] Repository + Unit of Work + DI
+- [x] EF Core on MSSQL/ localDb
+- [x] AutoMapper for models to API resources
+- [x] Swagger for API UI + Fluent validation
+- [ ] 
+- [ ] JWT Based Authentication
+- [ ] JavaSctipt front end -- angular/ react
+- [ ] Stock + Crypto lookups/ batch loads

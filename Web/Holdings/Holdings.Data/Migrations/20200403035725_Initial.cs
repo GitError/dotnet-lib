@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Holdings.Data.Migrations
 {
@@ -12,9 +13,8 @@ namespace Holdings.Data.Migrations
                 {
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
                     Username = table.Column<string>(nullable: false),
+                    Location = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true)
                 },
@@ -70,7 +70,7 @@ namespace Holdings.Data.Migrations
                 {
                     HoldingId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HoldingType = table.Column<int>(nullable: false),
+                    AssetClass = table.Column<int>(nullable: false),
                     Symbol = table.Column<string>(nullable: false),
                     Description = table.Column<string>(maxLength: 500, nullable: true),
                     Quantity = table.Column<int>(nullable: false),

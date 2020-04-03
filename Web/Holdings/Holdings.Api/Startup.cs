@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
 
 namespace Holdings.Api
 {
@@ -25,7 +26,7 @@ namespace Holdings.Api
         {
             services.AddControllers();
 
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<HoldingsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default"), x => x.MigrationsAssembly("Holdings.Data")));
 
             services.AddTransient<IUserService, UserService>();
@@ -38,6 +39,8 @@ namespace Holdings.Api
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Holdings", Version = "v1" });
             });
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

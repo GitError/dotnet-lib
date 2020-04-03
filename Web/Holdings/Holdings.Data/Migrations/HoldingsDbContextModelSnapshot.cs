@@ -28,15 +28,15 @@ namespace Holdings.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AssetClass")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("BuyPrice")
                         .HasColumnType("DECIMAL(18,4)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
-
-                    b.Property<int>("HoldingType")
-                        .HasColumnType("int");
 
                     b.Property<int>("ModelId")
                         .HasColumnType("int");
@@ -116,10 +116,7 @@ namespace Holdings.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
+                    b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("PasswordHash")
