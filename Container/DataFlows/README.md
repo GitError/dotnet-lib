@@ -4,7 +4,7 @@
 
 ### Solution Overview
 
-#### Changelog :construction:
+### Changelog :construction:
 
 Complete:
 

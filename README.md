@@ -5,7 +5,7 @@
 ### Web
 
 - :link: [Holdings](Web/Holdings/) - CORE (3.1), API, Angular  
-- :link: [RegulatoryReporting](Web/RegulatoryReporting/) - CORE (3.1), API, MVC :name_badge:
+- :link: [RegulatoryReporting](Web/RegulatoryReporting/) - CORE (3.1), API, MVC :no_entry:
 
 ### Desktop
 
