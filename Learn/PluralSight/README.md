@@ -1,8 +1,10 @@
-# PluralSight C# Track Notes
+#  
 
-## Modules
+## PluralSight C# Track Notes :ballot_box_with_check:
 
-### 2019/ 2020 Refresher
+### Modules
+
+#### 2019/ 2020 Refresher :triangular_flag_on_post:
 
 - Beginner
   - [x] C# Fundamentals with Visual Studio 2015 (Scott Allen)

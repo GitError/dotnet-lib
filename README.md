@@ -4,12 +4,12 @@
 
 ### Web
 
-- :link: [Holdings](Web/Holdings/) - CORE (3.1), API, Angular
-- :link: [RegulatoryReporting](Web/RegulatoryReporting/) - CORE (3.1), API, MVC
+- :link: [Holdings](Web/Holdings/) - CORE (3.1), API, Angular  
+- :link: [RegulatoryReporting](Web/RegulatoryReporting/) - CORE (3.1), API, MVC :name_badge:
 
 ### Desktop
 
-- :link: [ConvertToExcel](WPF/ConvertToExcel/) - .NET CORE (3.1), WPF
+- :link: [ConvertToExcel](WPF/ConvertToExcel/) - .NET CORE (3.1), WPF 
 - :link: [ConvertToExcelFramework](WPF/ConvertToExcelFramework/) - FRAMEWORK (4.7.2), WPF
 
 ### Containerized

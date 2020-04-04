@@ -1,6 +1,8 @@
-# .NET Fundamentals
+#  
 
-## Intro to .NET
+## .NET Fundamentals :ballot_box_with_check:
+
+### Intro to .NET
 
 There are two flavours of .NET
 
@@ -131,5 +133,4 @@ namespace GradeBook
         Grades += grade;  // this. is optional
     }
 }
-
 ```
