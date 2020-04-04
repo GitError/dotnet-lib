@@ -21,6 +21,8 @@ namespace Holdings.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             builder
                 .ApplyConfiguration(new PortfolioConfig())
                 .ApplyConfiguration(new ModelConfig())

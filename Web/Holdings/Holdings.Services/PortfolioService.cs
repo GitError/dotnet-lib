@@ -19,6 +19,7 @@ namespace Holdings.Services
         {
             await _unitOfWork.Portfolios.AddAsync(portfolio);
             await _unitOfWork.CommitAsync();
+
             return portfolio;
         }
 
@@ -26,12 +27,14 @@ namespace Holdings.Services
         {
             portfolioToBeUpdated.Name = portfolio.Name;
             portfolioToBeUpdated.User = portfolio.User;
+
             await _unitOfWork.CommitAsync();
         }
 
         public async Task Delete(Portfolio portfolio)
         {
-            _unitOfWork.Portfolios.Remove(portfolio);
+            _unitOfWork.Portfolios.Delete(portfolio);
+
             await _unitOfWork.CommitAsync();
         }
 

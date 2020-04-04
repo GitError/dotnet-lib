@@ -19,6 +19,7 @@ namespace Holdings.Services
         {
             await _unitOfWork.Models.AddAsync(model);
             await _unitOfWork.CommitAsync();
+
             return model;
         }
 
@@ -33,7 +34,8 @@ namespace Holdings.Services
 
         public async Task Delete(Model model)
         {
-            _unitOfWork.Models.Remove(model);
+            _unitOfWork.Models.Delete(model);
+
             await _unitOfWork.CommitAsync();
         }
 

@@ -19,6 +19,7 @@ namespace Holdings.Services
         {
             await _unitOfWork.Holdings.AddAsync(holding);
             await _unitOfWork.CommitAsync();
+
             return holding;
         }
 
@@ -36,7 +37,8 @@ namespace Holdings.Services
 
         public async Task Delete(Holding holding)
         {
-            _unitOfWork.Holdings.Remove(holding);
+            _unitOfWork.Holdings.Delete(holding); 
+
             await _unitOfWork.CommitAsync();
         }
 

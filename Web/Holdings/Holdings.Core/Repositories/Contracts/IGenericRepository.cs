@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Holdings.Core.Repositories.Contracts
 {
@@ -54,6 +55,12 @@ namespace Holdings.Core.Repositories.Contracts
         /// <returns></returns>
         IEnumerable<TEntity> GetAll();
 
+        IQueryable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicate);
+
+        int Count();
+
+        IQueryable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] includeProperties);
+
         #endregion Search Operations
 
         #region CRUD Operations
@@ -65,10 +72,18 @@ namespace Holdings.Core.Repositories.Contracts
         void Add(TEntity entity);
 
         /// <summary>
-        /// Update entity in db
+        /// Update entity in the db
         /// </summary>
         /// <param name="entityToUpdate"></param>
         void Update(TEntity entityToUpdate);
+
+        /// <summary>
+        /// Update entity in the db
+        /// </summary>
+        /// <param name="t">entity</param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        TEntity Update(TEntity t, object key);
 
         /// <summary>
         /// Delete entity from db by primary key
@@ -82,6 +97,34 @@ namespace Holdings.Core.Repositories.Contracts
         /// <param name="entityToDelete"></param>
         void Delete(TEntity entityToDelete);
 
+        /// <summary>
+        /// Delete an array of elements
+        /// </summary>
+        /// <param name="entitiesToDelete"></param>
+        void DeleteRange(IEnumerable<TEntity> entities);
+
         #endregion CRUD Operations
+
+        #region Asynchronous Operations
+
+        Task<IEnumerable<TEntity>> GetAllAsync();
+
+        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+
+        Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+
+        Task AddAsync(TEntity entity);
+
+        Task AddRangeAsync(IEnumerable<TEntity> entities);
+
+        Task<TEntity> UpdateAsyn(TEntity t, object key);
+
+        Task<int> CountAsync();
+
+        Task<int> DeleteAsyn(TEntity entity);
+
+        Task<ICollection<TEntity>> GetByAsync(Expression<Func<TEntity, bool>> predicate);
+
+        #endregion
     }
 }

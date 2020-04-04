@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Holdings.Data.Repositories
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        private HoldingsDbContext DbContext => Context as HoldingsDbContext;
+        private HoldingsDbContext _context => _context as HoldingsDbContext;
 
         public UserRepository(HoldingsDbContext context)
             : base(context)
@@ -15,7 +15,7 @@ namespace Holdings.Data.Repositories
         
         public async Task<User> GetByUsernameAsync(string username)
         {
-            return await DbContext.Users.SingleOrDefaultAsync(x => x.Username.Contains(username));
+            return await _context.Users.SingleOrDefaultAsync(x => x.Username.Contains(username));
         }
     }
 }

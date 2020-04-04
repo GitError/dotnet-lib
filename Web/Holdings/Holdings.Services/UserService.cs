@@ -19,6 +19,7 @@ namespace Holdings.Services
         {
             await _unitOfWork.Users.AddAsync(user);
             await _unitOfWork.CommitAsync();
+
             return user;
         }
 
@@ -32,7 +33,8 @@ namespace Holdings.Services
 
         public async Task Delete(User user)
         {
-            _unitOfWork.Users.Remove(user);
+            _unitOfWork.Users.Delete(user);
+
             await _unitOfWork.CommitAsync();
         }
 

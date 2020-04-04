@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Holdings.Core.Repositories.Contracts
 {
-    public interface IPortfolioRepository : IRepository<Portfolio>
+    public interface IPortfolioRepository : IGenericRepository<Portfolio>
     {
         Task<IEnumerable<Portfolio>> GetByUserIdAsync(int userId);
 

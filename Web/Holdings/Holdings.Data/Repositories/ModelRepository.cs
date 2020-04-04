@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Portfolios.Data.Repositories
 {
-    public class ModelRepository : Repository<Model>, IModelRepository
+    public class ModelRepository : GenericRepository<Model>, IModelRepository
     {
-        private HoldingsDbContext DbContext => Context as HoldingsDbContext;
+        private HoldingsDbContext _context => _context as HoldingsDbContext;
 
         public ModelRepository(HoldingsDbContext context)
             : base(context)
@@ -19,7 +19,7 @@ namespace Portfolios.Data.Repositories
         
         public async Task<IEnumerable<Model>> GetByPortfolioIdAsync(int portfolioId)
         { 
-            return await DbContext.Models.Where(x => x.Portfolio.PortfolioId == portfolioId).ToListAsync();
+            return await _context.Models.Where(x => x.Portfolio.PortfolioId == portfolioId).ToListAsync();
         }
     }
 }

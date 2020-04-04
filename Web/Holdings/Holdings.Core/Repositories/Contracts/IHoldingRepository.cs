@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Holdings.Core.Repositories.Contracts
 {
-    public interface IHoldingRepository : IRepository<Holding>
+    public interface IHoldingRepository : IGenericRepository<Holding>
     {
         Task<IEnumerable<Holding>> GetByModelIdAsync(int modelId);
     }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Holdings.Core.Repositories.Contracts
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IGenericRepository<User>
     {
         Task<User> GetByUsernameAsync(string username);
     }
