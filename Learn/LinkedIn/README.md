@@ -1,8 +1,8 @@
 #  
 
-## LinkedIn ASP.NET Core Developer Path :ballot_box_with_check:
+## LinkedIn ASP.NET Core Developer
 
-### Modules
+### Modules  :ballot_box_with_check:
 
 - [x] Learning ASP.NET Core MVC (Jess Chadwick)
 - [x] ASP.NET Core: Razor Pages (Jess Chadwick)

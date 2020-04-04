@@ -2,7 +2,7 @@
 
 ## Holdings App
 
-## Solution Overview :information_source:
+## Solution Overview
 
 A simple nTier .NET Core 3.1 application allowing its users to build portfolios for various asset class holdings.
 

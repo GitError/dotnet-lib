@@ -1,11 +1,11 @@
 #  
 
-## Other Notes :ballot_box_with_check:
+## Other Notes
 
-### Dependency Injection
+### Dependency Injection  :ballot_box_with_check:
 
 - Transient — Objects are different. One new instance for every controller and every service
 - Scoped — Objects are same through the request
 - Singleton — Objects are the same for all requests for the entire application lifetime
 
-### EF Core Commands
+### EF Core Commands  :ballot_box_with_check:
