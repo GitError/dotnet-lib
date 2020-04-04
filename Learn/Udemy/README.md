@@ -2,6 +2,6 @@
 
 ## Udemy C# and .NET Courses
 
-### Modules  :ballot_box_with_check:
+### Modules
 
-- [x] Design Patterns in C# and .NET (Dmitri Nesteruk)
+- :ballot_box_with_check: Design Patterns in C# and .NET (Dmitri Nesteruk)

@@ -9,7 +9,7 @@
 
 ### Desktop
 
-- :link: [ConvertToExcel](WPF/ConvertToExcel/) - .NET CORE (3.1), WPF 
+- :link: [ConvertToExcel](WPF/ConvertToExcel/) - .NET CORE (3.1), WPF
 - :link: [ConvertToExcelFramework](WPF/ConvertToExcelFramework/) - FRAMEWORK (4.7.2), WPF
 
 ### Containerized

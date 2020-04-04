@@ -1,6 +1,6 @@
 #  
 
-## .NET Fundamentals :ballot_box_with_check:
+## .NET Fundamentals
 
 ### Intro to .NET
 

@@ -1,14 +1,14 @@
 #  
 
-## DataFlows App 
+## DataFlows App
 
-### Solution Overview :hammer_and_wrench::construction:
+### Solution Overview
 
-#### Changelog
+#### Changelog :construction:
 
 Complete:
 
-- [x] Base layout/ template (.data, .core, .service, .api, .web-tbd)
+- :ballot_box_with_check: Base layout/ template (.data, .core, .service, .api, .web-tbd)
 
 To do:
 
