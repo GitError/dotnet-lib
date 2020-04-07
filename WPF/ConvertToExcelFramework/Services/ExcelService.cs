@@ -36,7 +36,9 @@ namespace ConvertToExcelFramework.Services
 
                 ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
 
-                wb.SaveAs(Path.GetFullPath(ds.FilePath.Substring(0, ds.FilePath.Length - 4) + ".xlsx"));
+                ds.FilePath = Path.GetFullPath(ds.FilePath.Substring(0, ds.FilePath.Length - 4) + ".xlsx");
+
+                wb.SaveAs(ds.FilePath);
 
                 return true;
             }
