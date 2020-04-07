@@ -53,12 +53,12 @@ namespace ConvertToExcel
                         }
                         else
                         {
-                          //  lbErrors.Items.Add($"Error converting {textFile}");
+                            lbErrors.Items.Add($"Error converting {textFile}");
                         }
                     }
                     catch
                     {
-                       // lbErrors.Items.Add($"Error converting {textFile}");
+                        lbErrors.Items.Add($"Error converting {textFile}");
                     }
 
                     lbFiles.Items.Refresh();
@@ -70,6 +70,11 @@ namespace ConvertToExcel
             {
                 lblStatus.Content = "Error: " + exception.Message;
             }
+        }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
