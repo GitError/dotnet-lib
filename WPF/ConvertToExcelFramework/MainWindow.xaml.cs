@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 
@@ -11,7 +12,7 @@ namespace ConvertToExcelFramework
     public partial class MainWindow : Window
     {
         Services.ExcelService _excelSrvc = new Services.ExcelService();
-         
+
         public MainWindow()
         {
             InitializeComponent();
@@ -23,7 +24,7 @@ namespace ConvertToExcelFramework
             {
                 Multiselect = true,
                 Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                RestoreDirectory = true
             };
 
             if (openFileDialog.ShowDialog() == true)
@@ -37,21 +38,46 @@ namespace ConvertToExcelFramework
         {
             try
             {
-                foreach (string textFile in lbFiles.Items)
-                {
-                    var logData = _excelSrvc.ReadLog(textFile); 
+                var items = new List<string>();
 
-                    if (_excelSrvc.SaveLogExcel(logData))
-                        lbConvertedFiles.Items.Add(logData.FilePath);
-                    else
-                        lbConvertedFiles.Items.Add("Error converting: " + logData.FilePath);
+                foreach (var i in lbFiles.Items)
+                    items.Add(i.ToString());
+
+                foreach (string textFile in items)
+                {
+                    try
+                    {
+                        var logData = _excelSrvc.ReadLog(textFile);
+
+                        if (_excelSrvc.SaveLogExcel(logData))
+                        {
+                            lbConvertedFiles.Items.Add(logData.FilePath);
+                            lbFiles.Items.RemoveAt(lbFiles.Items.IndexOf(textFile));
+                        }
+                        else
+                        {
+                            lbErrors.Items.Add($"Error converting {textFile}");
+                        }
+                    }
+                    catch
+                    {
+                        lbErrors.Items.Add($"Error converting {textFile}");
+                    }
+
+                    lbFiles.Items.Refresh();
                 }
-                lblStatus.Content = "Done!";
+
+                MessageBox.Show("Done!", "Conversion Complete", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception exception)
             {
                 lblStatus.Content = "Error: " + exception.Message;
             }
+        }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
