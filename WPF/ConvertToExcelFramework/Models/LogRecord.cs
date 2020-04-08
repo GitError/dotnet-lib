@@ -15,9 +15,9 @@ namespace ConvertToExcelFramework.Models
 
         public string STATUS { get; set; }
 
-        public DateTime? START_TS { get; set; }
+        public string START_TS { get; set; }
 
-        public DateTime? END_TS { get; set; }
+        public string END_TS { get; set; }
 
         public string RUN_TIME { get; set; }
 

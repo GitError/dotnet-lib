@@ -58,10 +58,7 @@ namespace ConvertToExcel.Services
 
                 var fileData = File.ReadAllLines(filePath)
                     .Skip(1)
-                    .Where(l => l != "" &&
-                                !l.Contains(",,,,,,,,,,,,,,,,,") &&
-                                !l.Contains(",,,,,,,,,,,") &&
-                                !l.Contains(@"PL/SQL procedure successfully completed."));
+                    .Where(l => l != "" && !l.Contains(@"PL/SQL procedure successfully completed."));
 
                 return new Log
                 {
@@ -73,8 +70,8 @@ namespace ConvertToExcel.Services
                         JOB_ID = int.TryParse(x[0], out asInt) ? asInt : 0,
                         LOAD_STEP = x[1],
                         STATUS = x[2],
-                        START_TS = DateTime.TryParse(x[3], out asDt) ? asDt : new DateTime(1900, 1, 1),
-                        END_TS = DateTime.TryParse(x[4], out asDt) ? asDt : new DateTime(1900, 1, 1),
+                        START_TS = x[3],
+                        END_TS = x[4],
                         RUN_TIME = x[5],
                         LOCK_TIME = x[6],
                         TOTAL_TIME = x[7],
