@@ -9,6 +9,10 @@ namespace ConvertToExcelFramework.Services
 {
     public class ExcelService : IExcelService
     {
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // REFACTOR FILE READS ONCE REQUIREMENTS FINALIZED
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         public ExcelService()
         {
 
@@ -20,25 +24,48 @@ namespace ConvertToExcelFramework.Services
             {
                 var wb = new XLWorkbook();
 
-                var sum_ws = wb.Worksheets.Add(AppSettings.SummaryWorkSheetName);
+                // Summary  worksheet
+                var sum_ws = wb.Worksheets.Add(AppSettings.SummaryWorksheetName);
 
-                sum_ws.Rows(1, 1).Style.Font.Bold = true;
-                sum_ws.Cell(1, 1).InsertData(logData.Summary.Description);
+                sum_ws.Columns("A-B").Width = 18;
+                sum_ws.Columns("A-B").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
 
+                sum_ws.Cell(1, 1).Value = "Date";
+                sum_ws.Cell(1, 2).Value = logData.Summary.Date;
+
+                sum_ws.Cell(2, 1).Value = "Summary";
+                sum_ws.Cell(2, 2).Value = logData.Summary.Description;
+
+                sum_ws.Cell(4, 1).Value = "Studies";
+
+                sum_ws.SheetView.Freeze(5, 1);
+
+                int i = 1;
+                foreach (var a in new Study().GetType().GetProperties())
+                {
+                    sum_ws.Cell(5, i).Value = a.Name;
+                    i++;
+                }
+
+                sum_ws.Cell(6, 1).InsertData(logData.Summary.Studies.ToList());
+
+                // Details worksheet
                 var dat_ws = wb.Worksheets.Add(AppSettings.LogDataWorksheetName);
 
-                dat_ws.Cell(2, 1).InsertData(logData.Records.ToList());
+                int j = 1;
+                foreach (var a in new LogRecord().GetType().GetProperties())
+                {
+                    dat_ws.Cell(1, j).Value = a.Name;
+                    j++;
+                }
 
-                string[] header = AppSettings.LogFileHeader.Split(AppSettings.DataDelimiter).ToArray();                
                 dat_ws.Rows(1, 1).Style.Font.Bold = true;
-
-                for (int i = 1; i < 21; i++)
-                    dat_ws.Cell(1, i).Value = header[i - 1].ToString();
+                dat_ws.SheetView.Freeze(1, 1);
 
                 dat_ws.Columns().Width = 18;
                 dat_ws.Columns().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
 
-                dat_ws.SheetView.Freeze(1, 1);
+                dat_ws.Cell(2, 1).InsertData(logData.Records.ToList());
 
                 dat_ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
 
@@ -57,28 +84,32 @@ namespace ConvertToExcelFramework.Services
 
         public Log ReadLogData(string filePath)
         {
+            //REFACTOR THE BELOW TO BE BASE DON ONE READ 
+            //using (FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            //{
+            //}
+
             try
             {
                 Log log = new Log(filePath);
-
                 int asInt = 0;
-                DateTime asDt = new DateTime(1900, 1, 1);
 
                 var summaryEndLine = File.ReadLines(filePath)
                     .Select((text, index) => new { text, lineNumber = index + 1 })
                     .First(x => x.text.Contains(AppSettings.SummaryEnd));
 
                 var summaryData = File.ReadLines(filePath)
-                    .Skip(2)
+                    .Skip(1)
                     .Take(summaryEndLine.lineNumber - 3)
                     .ToList();
+
+                log.Summary.Date = summaryData[1].ToString().Substring(2);
+                log.Summary.Description = summaryData[2].ToString().Substring(2);
 
                 foreach (var item in summaryData)
                 {
 
                 }
-
-                log.Summary.Description = summaryData[1].ToString().Substring(2);
 
                 var logData = File.ReadAllLines(filePath)
                     .Skip(summaryEndLine.lineNumber + 1)
@@ -107,7 +138,8 @@ namespace ConvertToExcelFramework.Services
                     I_U_D_SEC = int.TryParse(x[17], out asInt) ? asInt : 0,
                     TOTAL_SEC = int.TryParse(x[18], out asInt) ? asInt : 0,
                     LOADED_SEC = int.TryParse(x[19], out asInt) ? asInt : 0
-                }).ToList();
+                })
+                .ToList();
 
                 return log;
             }
