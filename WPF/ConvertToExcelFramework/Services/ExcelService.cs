@@ -10,7 +10,9 @@ namespace ConvertToExcelFramework.Services
     public class ExcelService : IExcelService
     {
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //
         // REFACTOR FILE READS ONCE REQUIREMENTS FINALIZED
+        //
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         public ExcelService()
@@ -106,9 +108,19 @@ namespace ConvertToExcelFramework.Services
                 log.Summary.Date = summaryData[1].ToString().Substring(2);
                 log.Summary.Description = summaryData[2].ToString().Substring(2);
 
-                foreach (var item in summaryData)
+                foreach (var record in summaryData.Where(x => x.Length > 1).Skip(2))
                 {
+                    if (record.Contains("#"))
+                    {
+                        log.Summary.Studies.Add(new Study()
+                        {
+                            // substring with index of # and STUDY:
+                            Id = record.Substring(3, 4).ToString(),
 
+
+                            Description = record.ToString().Substring(1)
+                        }); ;
+                    } 
                 }
 
                 var logData = File.ReadAllLines(filePath)
