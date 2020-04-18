@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ConvertToExcel.Models
+﻿namespace ConvertToExcel.Models
 {
     public class LogRecord
     {

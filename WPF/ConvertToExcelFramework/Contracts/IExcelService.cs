@@ -4,8 +4,8 @@ namespace ConvertToExcelFramework.Services
 {
     public interface IExcelService
     {
-        bool SaveLogExcel(Log logDataSet);
+        bool SaveLogExcel(Log logData);
 
-        Log ReadLog(string filePath);
+        Log ReadLogData(string filePath);
     }
 }

@@ -6,12 +6,9 @@ using System.Windows;
 
 namespace ConvertToExcelFramework
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        Services.ExcelService _excelSrvc = new Services.ExcelService();
+        private readonly Services.ExcelService _excelSrvc = new Services.ExcelService();
 
         public MainWindow()
         {
@@ -39,16 +36,16 @@ namespace ConvertToExcelFramework
             try
             {
                 var items = new List<string>();
-
                 foreach (var i in lbFiles.Items)
+                {
                     items.Add(i.ToString());
+                }
 
                 foreach (string textFile in items)
                 {
                     try
                     {
-                        var logData = _excelSrvc.ReadLog(textFile);
-
+                        var logData = _excelSrvc.ReadLogData(textFile);
                         if (_excelSrvc.SaveLogExcel(logData))
                         {
                             lbConvertedFiles.Items.Add(logData.FilePath);
@@ -63,10 +60,8 @@ namespace ConvertToExcelFramework
                     {
                         lbErrors.Items.Add($"Error converting {textFile}");
                     }
-
                     lbFiles.Items.Refresh();
                 }
-
                 MessageBox.Show("Done!", "Conversion Complete", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception exception)

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ConvertToExcelFramework.Models
+﻿namespace ConvertToExcelFramework.Models
 {
     public class LogRecord
     {
@@ -8,6 +6,12 @@ namespace ConvertToExcelFramework.Models
         {
 
         }
+
+        public int? INDEX { get; set; }
+
+        public string STUDY { get; set; }
+
+        public string DATA_MODEL { get; set; }
 
         public int? JOB_ID { get; set; }
 
