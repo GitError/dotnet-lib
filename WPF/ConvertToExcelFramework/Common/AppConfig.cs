@@ -1,15 +1,31 @@
-﻿namespace ConvertToExcelFramework.Common
+﻿using System.Text.RegularExpressions;
+
+namespace ConvertToExcelFramework.Common
 {
     public static class AppConfig
     {
+        public static class InputFile
+        {
+
+        }
+
+        public static class OutputFile
+        {
+            public static string ExcelFileExtension = ".xlsx";
+        }
+
         public static class Parsing
         {
             public static char LogDataDelimiter = ',';
             public static char NewStudyDelimiter = '#';
-            public static string SummaryEventDelimeter = @"*\*";
+
+            public static string RequiredPartialHeader = "STUDY,";
 
             public static string SummarySheetStartLine = @"*** SUMMARY ***";
             public static string SummarySheetEndLine = @"*** SUMMARY END ***";
+
+            public static Regex EventHeader = new Regex(@"\*\s{3}\w");
+            public static Regex EventDetails = new Regex(@"\*\s{5}\w");
         }
 
         public static class Validation
