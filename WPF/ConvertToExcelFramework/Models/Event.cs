@@ -11,14 +11,14 @@ namespace ConvertToExcelFramework.Models
 
     public class EventVm
     {
-        [Description("Study")] 
+        [Description("Study")]
         public string StudyName { get; set; }
 
-        [Description("Level")] 
+        [Description("Level")]
         public string EventLevel { get; set; }
 
 
-        [Description("Message")] 
+        [Description("Message")]
         public string EventMessage { get; set; }
     }
 }
