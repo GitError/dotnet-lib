@@ -24,7 +24,8 @@
             public static string Studies = "Studies";
 
             public static string SummaryWorksheetName = "Summary";
-            public static string LogDataWorksheetName = "Details";
+            public static string LogDetailsWorksheetName = "Details";
+            public static string LogEventsWorksheetName = "Events";
         }
     }
 }

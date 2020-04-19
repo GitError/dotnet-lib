@@ -54,13 +54,13 @@ namespace ConvertToExcelFramework.Services
 
                 var summaryDateset = logData.Summary.Studies
                     .Where(x => x.Id != 0)
-                    .Select(x => new { x.Id, x.Name, x.DataModelName })
+                    .Select(x => new { x.Id, x.Name, x.DataModelName, x.Events.Count })
                     .ToList();
 
                 sum_ws.Cell(6, 1).InsertData(summaryDateset);
 
                 // Details worksheet
-                var dat_ws = wb.Worksheets.Add(AppConfig.Labels.LogDataWorksheetName);
+                var dat_ws = wb.Worksheets.Add(AppConfig.Labels.LogDetailsWorksheetName);
 
                 int j = 1;
                 foreach (var prop in new LogRecord().GetType().GetProperties())
@@ -84,6 +84,9 @@ namespace ConvertToExcelFramework.Services
                 dat_ws.Cell(2, 1).InsertData(logData.Records.ToList());
 
                 dat_ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
+
+                // Events worksheet
+                var log_ws = wb.Worksheets.Add(AppConfig.Labels.LogEventsWorksheetName);
 
                 logData.FilePath = Path.GetFullPath(logData.FilePath.Substring(0, logData.FilePath.Length - 4) + ".xlsx");
 

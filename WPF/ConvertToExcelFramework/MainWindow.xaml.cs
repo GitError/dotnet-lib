@@ -8,7 +8,7 @@ namespace ConvertToExcelFramework
 {
     public partial class MainWindow : Window
     {
-        private readonly Services.ExcelService _excelSrvc = new Services.ExcelService();
+        Services.ExcelService _excelSrvc = new Services.ExcelService();
 
         public MainWindow()
         {
@@ -62,6 +62,7 @@ namespace ConvertToExcelFramework
                     }
                     lbFiles.Items.Refresh();
                 }
+
                 MessageBox.Show("Done!", "Conversion Complete", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception exception)
