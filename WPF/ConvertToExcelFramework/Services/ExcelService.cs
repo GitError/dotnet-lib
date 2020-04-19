@@ -23,9 +23,6 @@ namespace ConvertToExcelFramework.Services
                 if (logData.HasDetails)
                     InsertDetailsSheet(logData, wb);
 
-                if (logData.HasEvents)
-                    InsertEventsSheet(logData, wb);
-
                 logData.FilePath = Path.GetFullPath(logData.FilePath.Substring(0, logData.FilePath.Length - 4) + AppConfig.OutputFile.ExcelFileExtension);
 
                 wb.SaveAs(logData.FilePath);
@@ -58,13 +55,15 @@ namespace ConvertToExcelFramework.Services
 
                 if (logData.Summary.Studies.Count > 0)
                 {
-                    sum_ws.Cell(4, 1).Value = AppConfig.Labels.Studies;
+                    sum_ws.Cell(4, 1).Value = AppConfig.Labels.Runs;
 
                     sum_ws.Rows(5, 1).Style.Font.Bold = true;
                     sum_ws.SheetView.Freeze(5, 1);
 
+                    var events = new List<EventVm>();
+
                     int i = 1;
-                    foreach (var prop in new Study().GetType().GetProperties())
+                    foreach (var prop in new EventVm().GetType().GetProperties())
                     {
                         var att = prop.GetCustomAttributes(typeof(DescriptionAttribute), false).ToList();
 
@@ -76,71 +75,24 @@ namespace ConvertToExcelFramework.Services
                         i++;
                     }
 
-                    var summaryDateset = logData.Summary.Studies.Where(x => x.Id != 0)
-                        .Select(x => new { x.Id, x.Name, x.DataModelName, x.Events.Count })
-                        .ToList();
-
-                    sum_ws.Cell(6, 1).InsertData(summaryDateset);
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.ToString());
-                throw exception;
-            }
-        }
-
-        private static void InsertEventsSheet(Log logData, XLWorkbook wb)
-        {
-            if (logData is null)
-            {
-                throw new ArgumentNullException(nameof(logData));
-            }
-
-            try
-            {
-                var log_ws = wb.Worksheets.Add(AppConfig.Labels.LogEventsWorksheetName);
-
-                log_ws.Columns("A-D").Width = 20;
-                log_ws.Columns("A-D").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-
-                log_ws.Cell(1, 1).Value = AppConfig.Labels.LogEventsWorksheetName;
-
-                log_ws.Rows(3, 1).Style.Font.Bold = true;
-                log_ws.SheetView.Freeze(3, 1);
-
-                log_ws.Columns().Width = 20;
-                log_ws.Columns().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-
-                int i = 1;
-                foreach (var prop in new EventVm().GetType().GetProperties())
-                {
-                    var att = prop.GetCustomAttributes(typeof(DescriptionAttribute), false).ToList();
-
-                    if (att.Count > 0)
-                        log_ws.Cell(3, i).Value = ((DescriptionAttribute)att[0]).Description;
-                    else
-                        log_ws.Cell(3, i).Value = prop.Name;
-
-                    i++;
-                }
-
-                List<EventVm> eventsData = new List<EventVm>();
-                foreach (var study in logData.Summary.Studies.ToList())
-                {
-                    var studyEvents = study.Events.Select(x => new { x.Level, x.Message });
-                    foreach (var element in studyEvents)
+                    var studies = logData.Summary.Studies.ToList();
+                    foreach (var study in studies)
                     {
-                        eventsData.Add(new EventVm
+                        foreach (var ev in study.Events)
                         {
-                            StudyName = study.Name,
-                            EventLevel = element.Level,
-                            EventMessage = element.Message
-                        });
+                            events.Add(new EventVm
+                            {
+                                Id = study.Id,
+                                Study = study.Name,
+                                DataModel = study.DataModelName,
+                                Level = ev.Level,
+                                Message = ev.Message
+                            });
+                        }
                     }
-                }
 
-                log_ws.Cell(4, 1).InsertData(eventsData);
+                    sum_ws.Cell(6, 1).InsertData(events.ToList());
+                }
             }
             catch (Exception exception)
             {
@@ -155,17 +107,17 @@ namespace ConvertToExcelFramework.Services
             {
                 var dat_ws = wb.Worksheets.Add(AppConfig.Labels.LogDetailsWorksheetName);
 
-                int j = 1;
+                int i = 1;
                 foreach (var prop in new LogRecord().GetType().GetProperties())
                 {
                     var att = prop.GetCustomAttributes(typeof(DescriptionAttribute), false).ToList();
 
                     if (att.Count > 0)
-                        dat_ws.Cell(1, j).Value = ((DescriptionAttribute)att[0]).Description;
+                        dat_ws.Cell(1, i).Value = ((DescriptionAttribute)att[0]).Description;
                     else
-                        dat_ws.Cell(1, j).Value = prop.Name;
+                        dat_ws.Cell(1, i).Value = prop.Name;
 
-                    j++;
+                    i++;
                 }
 
                 dat_ws.Rows(1, 1).Style.Font.Bold = true;
@@ -177,6 +129,11 @@ namespace ConvertToExcelFramework.Services
                 dat_ws.Cell(2, 1).InsertData(logData.Records.ToList());
 
                 dat_ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
+                dat_ws.Columns("I:K").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                dat_ws.Columns("L:T").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                dat_ws.Columns("A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+
+                dat_ws.Columns().AdjustToContents();
             }
             catch (Exception exception)
             {

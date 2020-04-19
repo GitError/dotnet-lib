@@ -2,10 +2,9 @@
 
 namespace ConvertToExcel.Models
 {
-
     public class LogRecord
     {
-        [Description("INDEX")]
+        [Description("INDX")]
         public int? Index { get; set; }
 
         [Description("STUDY")]

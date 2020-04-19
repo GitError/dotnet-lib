@@ -11,14 +11,16 @@ namespace ConvertToExcelCore.Models
 
     public class EventVm
     {
-        [Description("Study")]
-        public string StudyName { get; set; }
+        [Description("Id")]
+        public int Id { get; set; }
 
-        [Description("Level")]
-        public string EventLevel { get; set; }
+        public string Study { get; set; }
 
+        [Description("Data Model")]
+        public string DataModel { get; set; }
 
-        [Description("Message")]
-        public string EventMessage { get; set; }
+        public string Level { get; set; }
+
+        public string Message { get; set; }
     }
 }

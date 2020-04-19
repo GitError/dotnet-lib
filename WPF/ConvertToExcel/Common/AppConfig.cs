@@ -37,7 +37,7 @@ namespace ConvertToExcel.Common
         {
             public static string Date = "Date";
             public static string Summary = "Summary";
-            public static string Studies = "Studies";
+            public static string Runs = "Runs";
 
             public static string SummaryWorksheetName = "Summary";
             public static string LogDetailsWorksheetName = "Details";
