@@ -18,7 +18,7 @@ A utility to convert specialized logs (.txt) into formatted multi-sheet excel re
 
 - :link: [DataFlows](Container/DataFlows/) - CORE (3.1), WorkerService, API, DDD Sample
 
-Middleware workflow app to take data sets via webapp uploads and send them to multiple destinations.
+Middleware workflow approval app that takes excel data sets via webapp uploads and send them to multiple destinations based on data set template configuration.
 
 ### Study Notes/ Tutorials
 

@@ -21,6 +21,6 @@ Complete:
 
 To do:
 
-- [ ] Add front end - Angluar or React using .api
+- [ ] Add front end - React using .api
 - [ ] Add D3.js heat maps
 - [ ] Extend and refactor :sweat_smile
