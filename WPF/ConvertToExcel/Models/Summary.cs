@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ConvertToExcelFramework.Models
+namespace ConvertToExcelCore.Models
 {
     public class Summary
     {

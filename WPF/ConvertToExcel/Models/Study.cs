@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace ConvertToExcelFramework.Models
+namespace ConvertToExcelCore.Models
 {
+
     public class Study
     {
         public Study()

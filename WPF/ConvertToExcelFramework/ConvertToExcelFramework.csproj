@@ -103,6 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Contracts\IUnilityService.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Summary.cs" />
     <Compile Include="Models\Study.cs" />
@@ -115,7 +116,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Common\AppSettings.cs" />
+    <Compile Include="Common\AppConfig.cs" />
     <Compile Include="Contracts\IExcelService.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

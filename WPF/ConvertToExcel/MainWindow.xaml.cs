@@ -36,16 +36,16 @@ namespace ConvertToExcel
             try
             {
                 var items = new List<string>();
-
                 foreach (var i in lbFiles.Items)
+                {
                     items.Add(i.ToString());
+                }
 
                 foreach (string textFile in items)
                 {
                     try
                     {
-                        var logData = _excelSrvc.ReadLog(textFile);
-
+                        var logData = _excelSrvc.ReadLogData(textFile);
                         if (_excelSrvc.SaveLogExcel(logData))
                         {
                             lbConvertedFiles.Items.Add(logData.FilePath);
@@ -60,10 +60,8 @@ namespace ConvertToExcel
                     {
                         lbErrors.Items.Add($"Error converting {textFile}");
                     }
-
                     lbFiles.Items.Refresh();
                 }
-
                 MessageBox.Show("Done!", "Conversion Complete", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception exception)

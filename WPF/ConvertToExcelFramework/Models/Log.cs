@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ConvertToExcelFramework.Models
 {
@@ -23,6 +24,7 @@ namespace ConvertToExcelFramework.Models
             };
         }
 
+        [Description("File Path")]
         public string FilePath { get; set; }
 
         public Summary Summary { get; set; }

@@ -1,44 +1,68 @@
-﻿namespace ConvertToExcel.Models
+﻿using System.ComponentModel;
+
+namespace ConvertToExcel.Models
 {
+
     public class LogRecord
     {
-        public LogRecord()
-        {
+        [Description("INDEX")]
+        public int? Index { get; set; }
 
-        }
+        [Description("STUDY")]
+        public string Study { get; set; }
 
-        public int? JOB_ID { get; set; }
+        [Description("DATA_MODEL")]
+        public string DataModel { get; set; }
 
-        public string LOAD_STEP { get; set; }
+        [Description("JOB_ID")]
+        public int? JobId { get; set; }
 
-        public string STATUS { get; set; }
+        [Description("LOAD_STEP")]
+        public string LoadStep { get; set; }
 
-        public string START_TS { get; set; }
+        [Description("STATUS")]
+        public string Status { get; set; }
 
-        public string END_TS { get; set; }
+        [Description("START_TS")]
+        public string StartTime { get; set; }
 
-        public string RUN_TIME { get; set; }
+        [Description("END_TS")]
+        public string EndTime { get; set; }
 
-        public string LOCK_TIME { get; set; }
+        [Description("RUN_TIME")]
+        public string RunTime { get; set; }
 
-        public string TOTAL_TIME { get; set; }
+        [Description("LOCK_TIME")]
+        public string LockTime { get; set; }
 
-        public int? REFRESHED { get; set; }
+        [Description("TOTAL_TIME")]
+        public string TotalTime { get; set; }
 
-        public int? INSERTED { get; set; }
+        [Description("REFRESHED")]
+        public int? Refreshed { get; set; }
 
-        public int? UPDATED { get; set; }
+        [Description("INSERTED")]
+        public int? Inserted { get; set; }
 
-        public int? DELETED { get; set; }
+        [Description("UPDATED")]
+        public int? Updated { get; set; }
 
-        public int? TOTAL_I_U_D { get; set; }
+        [Description("DELETED")]
+        public int? Deleted { get; set; }
 
-        public int? TOTAL_RECORDS { get; set; }
+        [Description("TOTAL_I_U_D")]
+        public int? TotalInsertsUpdatedDeletes { get; set; }
 
+        [Description("TOTAL_RECORDS")]
+        public int? TotalRecords { get; set; }
+
+        [Description("I_U_D_SEC")]
         public int? I_U_D_SEC { get; set; }
 
-        public int? TOTAL_SEC { get; set; }
+        [Description("TOTAL_SEC")]
+        public int? TotalSeconds { get; set; }
 
-        public int? LOADED_SEC { get; set; }
+        [Description("LOADED_SEC")]
+        public int? LoadedSeconds { get; set; }
     }
 }
