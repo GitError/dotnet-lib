@@ -12,6 +12,15 @@ namespace ConvertToExcelFramework.Services
 {
     public class ExcelService : IExcelService
     {
+        /*
+         * TODO:
+         *   REFACOTR THE FOLLOWING: 
+         *     - FILE READS -- AVOIND MULTIPLE SCANS
+         *     - HEADER CREATION -- EXTRACT METHOD WITH PARAMETERS
+         *     - GENERIC CLEANUP -- EXTRACT METHODS FROM REPETITIVE CODE
+         *     - GENERIC CLEANUP -- AVOID HARDCODING, MODE TO CONSTANDS WHEN NEEDED
+         * */
+
         public bool SaveLogExcel(Log logData)
         {
             try
@@ -47,6 +56,9 @@ namespace ConvertToExcelFramework.Services
 
                 sum_ws.Columns("A-D").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
 
+                // TODO:
+                // CHANGE STYLE TO RANGE BASED
+                
                 sum_ws.Cell(1, 1).Value = AppConfig.Labels.Date;
                 sum_ws.Cell(1, 1).Style.Font.Bold = true;
                 sum_ws.Cell(1, 2).Style.Font.Bold = true;
@@ -111,6 +123,7 @@ namespace ConvertToExcelFramework.Services
                 dat_ws.Columns().Width = 20;
                 dat_ws.Columns().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
 
+                // ADD AUTOMAPPER -- THIS IS REDENDANT THO
                 var vm = logData.Records.ToList().Select(x => new LogRecordVm
                 {
                     Index = x.Index,
