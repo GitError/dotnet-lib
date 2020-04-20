@@ -5,14 +5,20 @@ using ConvertToExcelCore.Models;
 using ConvertToExcelCore.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 
 namespace LogConverterCore.Services
-{    
+{
     public class ExcelService : IExcelService
     {
+        /*
+         *   REFACOTR THE FOLLOWING: 
+         *     - FILE READS -- AVOIND MULTIPLE SCANS
+         *     - GENERIC CLEANUP -- EXTRACT METHODS FROM REPETITIVE CODE
+         *     - GENERIC CLEANUP -- AVOID HARDCODING, MODE TO CONSTANDS WHEN NEEDED
+         * */
+
         public bool SaveLogExcel(Log logData)
         {
             try
@@ -104,8 +110,6 @@ namespace LogConverterCore.Services
             {
                 var dat_ws = wb.Worksheets.Add(AppConfig.Labels.LogDetailsWorksheetName);
 
-                InsertDetailsHeader(dat_ws);
-
                 dat_ws.Rows(1, 1).Style.Font.Bold = true;
                 dat_ws.SheetView.Freeze(1, 1);
 
@@ -114,26 +118,26 @@ namespace LogConverterCore.Services
 
                 var vm = logData.Records.ToList().Select(x => new LogRecordVm
                 {
-                    Index = x.Index,
-                    Study = x.Study,
-                    DataModel = x.DataModel,
-                    JobId = x.JobId,
-                    LoadStep = x.LoadStep,
-                    Status = x.Status,
-                    StartTime = x.StartTime,
-                    EndTime = x.EndTime,
-                    RunTime = x.RunTime,
-                    LockTime = x.LockTime,
-                    TotalTime = x.TotalTime,
-                    Refreshed = x.Index,
-                    Inserted = x.Inserted,
-                    Updated = x.Updated,
-                    Deleted = x.Deleted,
-                    TotalInsertsUpdatedDeletes = x.TotalInsertsUpdatedDeletes,
-                    TotalRecords = x.TotalRecords,
+                    INDX = x.Index,
+                    STUDY = x.Study,
+                    DATA_MODEL = x.DataModel,
+                    JOB_ID = x.JobId,
+                    LOAD_STEP = x.LoadStep,
+                    STATUS = x.Status,
+                    START_TS = x.StartTime,
+                    END_TS = x.EndTime,
+                    RUN_TIME = x.RunTime,
+                    LOCK_TIME = x.LockTime,
+                    TOTAL_TIME = x.TotalTime,
+                    REFRESHED = x.Refreshed,
+                    INSERTED = x.Inserted,
+                    UPDATED = x.Updated,
+                    DELETED = x.Deleted,
+                    TOTAL_I_U_D = x.TotalInsertsUpdatedDeletes,
+                    TOTAL_RECORDS = x.TotalRecords,
                     I_U_D_SEC = x.I_U_D_SEC,
-                    TotalSeconds = x.TotalSeconds,
-                    LoadedSeconds = x.LoadedSeconds,
+                    TOTAL_SEC = x.TotalSeconds,
+                    LOADED_SEC = x.LoadedSeconds,
                 });
 
                 var dataGroups = new List<DataGroupVm>();
@@ -163,10 +167,12 @@ namespace LogConverterCore.Services
 
                 foreach (var group in dataGroups.Where(x => !x.Orphen).ToList())
                 {
-                    dat_ws.Rows(group.ParentRow, group.ChildRow - 1).Group();
+                    dat_ws.Rows(group.ParentRow + 1, group.ChildRow).Group();
+                    dat_ws.Rows(group.ParentRow + 1, group.ChildRow).Collapse();
                 }
 
-                dat_ws.Cell(2, 1).InsertData(vm.ToList());
+                dat_ws.Cell(1, 1).AsRange().AddToNamed("Titles");
+                dat_ws.Cell(1, 1).InsertTable(vm.ToList()).Theme = XLTableTheme.TableStyleLight1;
 
                 dat_ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
                 dat_ws.Columns("I:K").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
@@ -174,28 +180,11 @@ namespace LogConverterCore.Services
                 dat_ws.Columns("A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
 
                 dat_ws.Columns().AdjustToContents();
-
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception.ToString());
                 throw exception;
-            }
-        }
-
-        private static void InsertDetailsHeader(IXLWorksheet dat_ws)
-        {
-            int i = 1;
-            foreach (var prop in new LogRecordVm().GetType().GetProperties())
-            {
-                var att = prop.GetCustomAttributes(typeof(DescriptionAttribute), false).ToList();
-
-                if (att.Count > 0)
-                    dat_ws.Cell(1, i).Value = ((DescriptionAttribute)att[0]).Description;
-                else
-                    dat_ws.Cell(1, i).Value = prop.Name;
-
-                i++;
             }
         }
 

@@ -4,7 +4,6 @@ using LogConverterFramework.Models;
 using LogConverterFramework.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 
@@ -13,7 +12,6 @@ namespace LogConverterFramework.Services
     public class ExcelService : IExcelService
     {
         /*
-         * TODO:
          *   REFACOTR THE FOLLOWING: 
          *     - FILE READS -- AVOIND MULTIPLE SCANS
          *     - GENERIC CLEANUP -- EXTRACT METHODS FROM REPETITIVE CODE
@@ -54,9 +52,6 @@ namespace LogConverterFramework.Services
                 var sum_ws = wb.Worksheets.Add(AppConfig.Labels.SummaryWorksheetName);
 
                 sum_ws.Columns("A-D").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-
-                // TODO:
-                // CHANGE STYLE TO RANGE BASED
 
                 sum_ws.Cell(1, 1).Value = AppConfig.Labels.Date;
                 sum_ws.Cell(1, 1).Style.Font.Bold = true;
@@ -133,7 +128,7 @@ namespace LogConverterFramework.Services
                     RUN_TIME = x.RunTime,
                     LOCK_TIME = x.LockTime,
                     TOTAL_TIME = x.TotalTime,
-                    REFRESHED = x.Index,
+                    REFRESHED = x.Refreshed,
                     INSERTED = x.Inserted,
                     UPDATED = x.Updated,
                     DELETED = x.Deleted,
@@ -171,7 +166,8 @@ namespace LogConverterFramework.Services
 
                 foreach (var group in dataGroups.Where(x => !x.Orphen).ToList())
                 {
-                    dat_ws.Rows(group.ParentRow + 1, group.ChildRow - 1).Group();
+                    dat_ws.Rows(group.ParentRow + 1, group.ChildRow).Group();
+                    dat_ws.Rows(group.ParentRow + 1, group.ChildRow).Collapse();
                 }
 
                 dat_ws.Cell(1, 1).AsRange().AddToNamed("Titles");
@@ -183,7 +179,6 @@ namespace LogConverterFramework.Services
                 dat_ws.Columns("A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
 
                 dat_ws.Columns().AdjustToContents();
-
             }
             catch (Exception exception)
             {
