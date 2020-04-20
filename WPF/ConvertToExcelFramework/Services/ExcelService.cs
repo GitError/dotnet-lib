@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using ConvertToExcelFramework.Common;
 using ConvertToExcelFramework.Models;
+using ConvertToExcelFramework.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,11 +45,15 @@ namespace ConvertToExcelFramework.Services
             {
                 var sum_ws = wb.Worksheets.Add(AppConfig.Labels.SummaryWorksheetName);
 
-                sum_ws.Columns("A-D").Width = 20;
                 sum_ws.Columns("A-D").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
 
                 sum_ws.Cell(1, 1).Value = AppConfig.Labels.Date;
+                sum_ws.Cell(1, 1).Style.Font.Bold = true;
+                sum_ws.Cell(1, 2).Style.Font.Bold = true;
+
                 sum_ws.Cell(1, 2).Value = logData.Summary.Date;
+                sum_ws.Cell(2, 1).Style.Font.Bold = true;
+                sum_ws.Cell(2, 2).Style.Font.Bold = true;
 
                 sum_ws.Cell(2, 1).Value = AppConfig.Labels.Summary;
                 sum_ws.Cell(2, 2).Value = logData.Summary.Description;
@@ -56,24 +61,12 @@ namespace ConvertToExcelFramework.Services
                 if (logData.Summary.Studies.Count > 0)
                 {
                     sum_ws.Cell(4, 1).Value = AppConfig.Labels.Runs;
+                    sum_ws.Cell(4, 1).Style.Font.Bold = true;
 
                     sum_ws.Rows(5, 1).Style.Font.Bold = true;
                     sum_ws.SheetView.Freeze(5, 1);
 
                     var events = new List<EventVm>();
-
-                    int i = 1;
-                    foreach (var prop in new EventVm().GetType().GetProperties())
-                    {
-                        var att = prop.GetCustomAttributes(typeof(DescriptionAttribute), false).ToList();
-
-                        if (att.Count > 0)
-                            sum_ws.Cell(5, i).Value = ((DescriptionAttribute)att[0]).Description;
-                        else
-                            sum_ws.Cell(5, i).Value = prop.Name;
-
-                        i++;
-                    }
 
                     var studies = logData.Summary.Studies.ToList();
                     foreach (var study in studies)
@@ -91,8 +84,11 @@ namespace ConvertToExcelFramework.Services
                         }
                     }
 
-                    sum_ws.Cell(6, 1).InsertData(events.ToList());
+                    sum_ws.Cell(5, 1).AsRange().AddToNamed("Titles");
+                    sum_ws.Cell(5, 1).InsertTable(events.ToList());
                 }
+
+                sum_ws.Columns().AdjustToContents();
             }
             catch (Exception exception)
             {
@@ -107,18 +103,7 @@ namespace ConvertToExcelFramework.Services
             {
                 var dat_ws = wb.Worksheets.Add(AppConfig.Labels.LogDetailsWorksheetName);
 
-                int i = 1;
-                foreach (var prop in new LogRecord().GetType().GetProperties())
-                {
-                    var att = prop.GetCustomAttributes(typeof(DescriptionAttribute), false).ToList();
-
-                    if (att.Count > 0)
-                        dat_ws.Cell(1, i).Value = ((DescriptionAttribute)att[0]).Description;
-                    else
-                        dat_ws.Cell(1, i).Value = prop.Name;
-
-                    i++;
-                }
+                InsertDetailsHeader(dat_ws);
 
                 dat_ws.Rows(1, 1).Style.Font.Bold = true;
                 dat_ws.SheetView.Freeze(1, 1);
@@ -126,7 +111,33 @@ namespace ConvertToExcelFramework.Services
                 dat_ws.Columns().Width = 20;
                 dat_ws.Columns().Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
 
-                dat_ws.Cell(2, 1).InsertData(logData.Records.ToList());
+                var vm = logData.Records.ToList().Select(x => new LogRecordVm
+                {
+                    Index = x.Index,
+                    Study = x.Study,
+                    DataModel = x.DataModel,
+                    JobId = x.JobId,
+                    LoadStep = x.LoadStep,
+                    Status = x.Status,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime,
+                    RunTime = x.RunTime,
+                    LockTime = x.LockTime,
+                    TotalTime = x.TotalTime,
+                    Refreshed = x.Index,
+                    Inserted = x.Inserted,
+                    Updated = x.Updated,
+                    Deleted = x.Deleted,
+                    TotalInsertsUpdatedDeletes = x.TotalInsertsUpdatedDeletes,
+                    TotalRecords = x.TotalRecords,
+                    I_U_D_SEC = x.I_U_D_SEC,
+                    TotalSeconds = x.TotalSeconds,
+                    LoadedSeconds = x.LoadedSeconds,
+                });
+
+                //dat_ws.Rows(5, 24).Group();
+
+                dat_ws.Cell(2, 1).InsertData(vm.ToList());
 
                 dat_ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
                 dat_ws.Columns("I:K").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
@@ -139,6 +150,22 @@ namespace ConvertToExcelFramework.Services
             {
                 Console.WriteLine(exception.ToString());
                 throw exception;
+            }
+        }
+
+        private static void InsertDetailsHeader(IXLWorksheet dat_ws)
+        {
+            int i = 1;
+            foreach (var prop in new LogRecordVm().GetType().GetProperties())
+            {
+                var att = prop.GetCustomAttributes(typeof(DescriptionAttribute), false).ToList();
+
+                if (att.Count > 0)
+                    dat_ws.Cell(1, i).Value = ((DescriptionAttribute)att[0]).Description;
+                else
+                    dat_ws.Cell(1, i).Value = prop.Name;
+
+                i++;
             }
         }
 
@@ -231,10 +258,10 @@ namespace ConvertToExcelFramework.Services
                         .Select(x => x.Split(AppConfig.Parsing.LogDataDelimiter))
                         .Select(x => new LogRecord
                         {
-                            Index = int.TryParse(x[0], out asInt) ? asInt : 0,
+                            Index = TryParseNullable(x[0]),
                             Study = x[1],
                             DataModel = x[2],
-                            JobId = int.TryParse(x[3], out asInt) ? asInt : 0,
+                            JobId = TryParseNullable(x[3]),
                             LoadStep = x[4],
                             Status = x[5],
                             StartTime = x[6],
@@ -242,15 +269,15 @@ namespace ConvertToExcelFramework.Services
                             RunTime = x[8],
                             LockTime = x[9],
                             TotalTime = x[10],
-                            Refreshed = int.TryParse(x[11], out asInt) ? asInt : 0,
-                            Inserted = int.TryParse(x[12], out asInt) ? asInt : 0,
-                            Updated = int.TryParse(x[13], out asInt) ? asInt : 0,
-                            Deleted = int.TryParse(x[14], out asInt) ? asInt : 0,
-                            TotalInsertsUpdatedDeletes = int.TryParse(x[15], out asInt) ? asInt : 0,
-                            TotalRecords = int.TryParse(x[16], out asInt) ? asInt : 0,
-                            I_U_D_SEC = int.TryParse(x[17], out asInt) ? asInt : 0,
-                            TotalSeconds = int.TryParse(x[18], out asInt) ? asInt : 0,
-                            LoadedSeconds = int.TryParse(x[19], out asInt) ? asInt : 0
+                            Refreshed = TryParseNullable(x[11]),
+                            Inserted = TryParseNullable(x[12]),
+                            Updated = TryParseNullable(x[13]),
+                            Deleted = TryParseNullable(x[14]),
+                            TotalInsertsUpdatedDeletes = TryParseNullable(x[15]),
+                            TotalRecords = TryParseNullable(x[16]),
+                            I_U_D_SEC = TryParseNullable(x[17]),
+                            TotalSeconds = TryParseNullable(x[18]),
+                            LoadedSeconds = TryParseNullable(x[19])
                         }).ToList();
                 }
 
@@ -261,6 +288,12 @@ namespace ConvertToExcelFramework.Services
                 Console.WriteLine(exception.ToString());
                 return new Log();
             }
+
+        }
+
+        public int? TryParseNullable(string val)
+        {
+            return int.TryParse(val, out int outValue) ? (int?)outValue : null;
         }
     }
 }

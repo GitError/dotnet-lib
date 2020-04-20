@@ -108,6 +108,8 @@
     <Compile Include="Models\Summary.cs" />
     <Compile Include="Models\Study.cs" />
     <Compile Include="Services\ExcelService.cs" />
+    <Compile Include="ViewModels\EventVm.cs" />
+    <Compile Include="ViewModels\LogRecordVm.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -164,5 +166,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
