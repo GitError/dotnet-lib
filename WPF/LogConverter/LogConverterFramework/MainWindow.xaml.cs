@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace LogConverterFramework
 {
@@ -48,14 +49,9 @@ namespace LogConverterFramework
                     {
                         var logData = _excelSrvc.ReadLogData(textFile);
 
-                        ThreadPool.QueueUserWorkItem(o =>
-                        {
-                            Dispatcher.BeginInvoke(new Action(() =>
-                            {
-                                TxtStatus.Text = $"Processing... {logData.FilePath}";
-                            }));
-                        });
-                         
+                        TxtStatus.Text = $"Processing... {logData.FilePath}";
+                        Dispatcher.Invoke((Action)(() => { }), DispatcherPriority.Render);
+
                         if (_excelSrvc.SaveLogExcel(logData))
                         {
                             lbConvertedFiles.Items.Add(logData.FilePath);
@@ -70,16 +66,14 @@ namespace LogConverterFramework
                     {
                         lbErrors.Items.Add($"Error converting {textFile}");
                     }
+
                     lbFiles.Items.Refresh();
+                    Dispatcher.Invoke((Action)(() => { }), DispatcherPriority.Render);
                 }
 
-                ThreadPool.QueueUserWorkItem(o =>
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        TxtStatus.Text = $"Done! Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
-                    }));
-                });
+                TxtStatus.Text = $"Done! Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
+                Dispatcher.Invoke((Action)(() => { }), DispatcherPriority.Render);
+
             }
             catch (Exception exception)
             {
