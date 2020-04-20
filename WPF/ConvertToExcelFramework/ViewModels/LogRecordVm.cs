@@ -2,7 +2,6 @@
 
 namespace ConvertToExcelFramework.ViewModels
 {
-
     public class LogRecordVm
     {
         [Description("INDX")]

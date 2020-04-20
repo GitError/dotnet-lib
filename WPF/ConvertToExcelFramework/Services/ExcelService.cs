@@ -135,7 +135,35 @@ namespace ConvertToExcelFramework.Services
                     LoadedSeconds = x.LoadedSeconds,
                 });
 
-                //dat_ws.Rows(5, 24).Group();
+                var dataGroups = new List<DataGroupVm>();
+
+                int i = 1;
+                foreach (var record in logData.Records.ToList())
+                {
+                    if (record.LoadStep != string.Empty)
+                    {
+                        if (!record.LoadStep.Substring(0, 2).Contains(".."))
+                        {
+                            dataGroups.Add(new DataGroupVm
+                            {
+                                ParentRow = i + 1,
+                                Orphen = true
+                            });
+                        }
+                        else
+                        {
+                            var last = dataGroups.Last();
+                            last.ChildRow = i + 1;
+                            last.Orphen = false;
+                        }
+                    }
+                    i++;
+                }
+
+                foreach (var group in dataGroups.Where(x => !x.Orphen).ToList())
+                {
+                    dat_ws.Rows(group.ParentRow, group.ChildRow - 1).Group();
+                }
 
                 dat_ws.Cell(2, 1).InsertData(vm.ToList());
 
@@ -145,6 +173,7 @@ namespace ConvertToExcelFramework.Services
                 dat_ws.Columns("A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
 
                 dat_ws.Columns().AdjustToContents();
+
             }
             catch (Exception exception)
             {

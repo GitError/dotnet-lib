@@ -108,6 +108,7 @@
     <Compile Include="Models\Summary.cs" />
     <Compile Include="Models\Study.cs" />
     <Compile Include="Services\ExcelService.cs" />
+    <Compile Include="ViewModels\DataGroupVm.cs" />
     <Compile Include="ViewModels\EventVm.cs" />
     <Compile Include="ViewModels\LogRecordVm.cs" />
     <Page Include="MainWindow.xaml">
