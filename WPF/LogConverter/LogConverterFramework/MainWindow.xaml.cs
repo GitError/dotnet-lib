@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Windows;
 
 namespace LogConverterFramework
@@ -47,8 +48,14 @@ namespace LogConverterFramework
                     {
                         var logData = _excelSrvc.ReadLogData(textFile);
 
-                        TxtStatus.Text = $"Processing... {logData.FilePath}";
-
+                        ThreadPool.QueueUserWorkItem(o =>
+                        {
+                            Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                TxtStatus.Text = $"Processing... {logData.FilePath}";
+                            }));
+                        });
+                         
                         if (_excelSrvc.SaveLogExcel(logData))
                         {
                             lbConvertedFiles.Items.Add(logData.FilePath);
@@ -66,7 +73,13 @@ namespace LogConverterFramework
                     lbFiles.Items.Refresh();
                 }
 
-                TxtStatus.Text = $"Done! Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
+                ThreadPool.QueueUserWorkItem(o =>
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        TxtStatus.Text = $"Done! Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
+                    }));
+                });
             }
             catch (Exception exception)
             {
