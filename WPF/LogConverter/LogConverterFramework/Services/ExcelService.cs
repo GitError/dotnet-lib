@@ -173,6 +173,8 @@ namespace LogConverterFramework.Services
                 dat_ws.Cell(1, 1).AsRange().AddToNamed("Titles");
                 dat_ws.Cell(1, 1).InsertTable(vm.ToList()).Theme = XLTableTheme.TableStyleLight1;
 
+                dat_ws.Row(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
+
                 dat_ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
                 dat_ws.Columns("I:K").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
                 dat_ws.Columns("L:T").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;

@@ -46,6 +46,9 @@ namespace LogConverterFramework
                     try
                     {
                         var logData = _excelSrvc.ReadLogData(textFile);
+
+                        TxtStatus.Text = $"Processing... {logData.FilePath}";
+
                         if (_excelSrvc.SaveLogExcel(logData))
                         {
                             lbConvertedFiles.Items.Add(logData.FilePath);
@@ -63,7 +66,7 @@ namespace LogConverterFramework
                     lbFiles.Items.Refresh();
                 }
 
-                MessageBox.Show("Done!", "Conversion Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+                TxtStatus.Text = $"Done! Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
             }
             catch (Exception exception)
             {
