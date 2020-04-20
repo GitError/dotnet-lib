@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -10,7 +9,7 @@ namespace LogConverterFramework
 {
     public partial class MainWindow : Window
     {
-        Services.ExcelService _excelSrvc = new Services.ExcelService();
+        private readonly Services.ExcelService _excelSrvc = new Services.ExcelService();
 
         public MainWindow()
         {
@@ -43,36 +42,41 @@ namespace LogConverterFramework
                     items.Add(i.ToString());
                 }
 
+                int k = 1;
                 foreach (string textFile in items)
                 {
                     try
                     {
                         var logData = _excelSrvc.ReadLogData(textFile);
 
-                        TxtStatus.Text = $"Processing... {logData.FilePath}";
-                        Dispatcher.Invoke((Action)(() => { }), DispatcherPriority.Render);
+                        TxtStatus.Text = $"Processing file #{k} -- {logData.FilePath}";
+                        Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
 
                         if (_excelSrvc.SaveLogExcel(logData))
                         {
                             lbConvertedFiles.Items.Add(logData.FilePath);
                             lbFiles.Items.RemoveAt(lbFiles.Items.IndexOf(textFile));
+                            Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
                         }
                         else
                         {
                             lbErrors.Items.Add($"Error converting {textFile}");
+                            Dispatcher.Invoke((() => { }), DispatcherPriority.Render);
                         }
                     }
                     catch
                     {
                         lbErrors.Items.Add($"Error converting {textFile}");
+                        Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
                     }
 
                     lbFiles.Items.Refresh();
-                    Dispatcher.Invoke((Action)(() => { }), DispatcherPriority.Render);
+                    Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
+                    k++;
                 }
 
-                TxtStatus.Text = $"Done! Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
-                Dispatcher.Invoke((Action)(() => { }), DispatcherPriority.Render);
+                TxtStatus.Text = $"Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
+                Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
 
             }
             catch (Exception exception)
