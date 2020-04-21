@@ -11,13 +11,6 @@ namespace LogConverterFramework.Services
 {
     public class ExcelService : IExcelService
     {
-        /*
-         *   REFACOTR THE FOLLOWING: 
-         *     - FILE READS -- AVOIND MULTIPLE SCANS
-         *     - GENERIC CLEANUP -- EXTRACT METHODS FROM REPETITIVE CODE
-         *     - GENERIC CLEANUP -- AVOID HARDCODING, MODE TO CONSTANDS WHEN NEEDED
-         * */
-
         public bool SaveLogExcel(Log logData)
         {
             try
@@ -224,11 +217,12 @@ namespace LogConverterFramework.Services
 
                         if (record.Contains(AppConfig.Parsing.NewStudyDelimiter))
                         {
+                            var data = record.Split(':');
                             var recToAdd = new Study
                             {
-                                Id = int.TryParse(record.Substring(record.IndexOf(AppConfig.Parsing.NewStudyDelimiter) + 1, record.IndexOf(" S") - 3), out asInt) ? asInt : 0,
-                                Name = record.Substring(record.IndexOf("Y:") + 3, record.IndexOf(" D") - 12),
-                                DataModelName = record.Substring(record.IndexOf("L:") + 2)
+                                Id = int.TryParse(data[0].Substring(3, data[0].Length - 9), out asInt) ? asInt : 0,                                
+                                Name = data[1].ToString().Substring(1, data[1].Substring(1).IndexOf(" ") - 1),
+                                DataModelName = data[2].ToString().Substring(1).ToString()
                             };
                             recordsToAdd.Add(recToAdd);
                         }
