@@ -12,13 +12,6 @@ namespace LogConverterCore.Services
 {
     public class ExcelService : IExcelService
     {
-        /*
-         *   REFACOTR THE FOLLOWING: 
-         *     - FILE READS -- AVOIND MULTIPLE SCANS
-         *     - GENERIC CLEANUP -- EXTRACT METHODS FROM REPETITIVE CODE
-         *     - GENERIC CLEANUP -- AVOID HARDCODING, MODE TO CONSTANDS WHEN NEEDED
-         * */
-
         public bool SaveLogExcel(Log logData)
         {
             try
@@ -174,12 +167,15 @@ namespace LogConverterCore.Services
                 dat_ws.Cell(1, 1).AsRange().AddToNamed("Titles");
                 dat_ws.Cell(1, 1).InsertTable(vm.ToList()).Theme = XLTableTheme.TableStyleLight1;
 
+
                 dat_ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
                 dat_ws.Columns("I:K").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
                 dat_ws.Columns("L:T").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
                 dat_ws.Columns("A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
 
                 dat_ws.Columns().AdjustToContents();
+
+                dat_ws.Row(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
             }
             catch (Exception exception)
             {
@@ -222,11 +218,12 @@ namespace LogConverterCore.Services
 
                         if (record.Contains(AppConfig.Parsing.NewStudyDelimiter))
                         {
+                            var data = record.Split(':');
                             var recToAdd = new Study
                             {
-                                Id = int.TryParse(record.Substring(record.IndexOf(AppConfig.Parsing.NewStudyDelimiter) + 1, record.IndexOf(" S") - 3), out asInt) ? asInt : 0,
-                                Name = record.Substring(record.IndexOf("Y:") + 3, record.IndexOf(" D") - 12),
-                                DataModelName = record.Substring(record.IndexOf("L:") + 2)
+                                Id = int.TryParse(data[0].Substring(3, data[0].Length - 9), out asInt) ? asInt : 0,
+                                Name = data[1].ToString().Substring(1, data[1].Substring(1).IndexOf(" ") - 1),
+                                DataModelName = data[2].ToString().Substring(1).ToString()
                             };
                             recordsToAdd.Add(recToAdd);
                         }

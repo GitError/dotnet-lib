@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LogConverterFramework"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="Convert to Excel" Height="635" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
 
@@ -44,5 +45,7 @@
 
         <Button Grid.Row ="6" Grid.Column="1"  Name="BtnClose" Click="BtnClose_Click" Content="EXIT" Grid.ColumnSpan="1" Background="{x:Null}" Margin="0,0,0,-19" HorizontalAlignment="Right" Width="69" FontWeight="Bold" />
 
+        <fa:ImageAwesome x:Name="icoRefresh" Icon="Spinner" Visibility="Hidden" Grid.Row="4" Grid.Column="2" Spin="True" Height="64" Width="64" />
+        
     </Grid>
 </Window>
