@@ -222,8 +222,8 @@ namespace LogConverterFramework.Services
                             var data = record.Split(':');
                             var recToAdd = new Study
                             {
-                                Id = int.TryParse(data[0].Substring(3, data[0].Length - 9), out asInt) ? asInt : 0,                                
-                                Name = data[1].ToString().Substring(1, data[1].Substring(1).IndexOf(" ") - 1),
+                                Id = int.TryParse(data[0].Substring(3, data[0].Length - 9), out asInt) ? asInt : 0,
+                                Name = data[1].ToString().Substring(1, data[1].Substring(1).IndexOf(" ")),
                                 DataModelName = data[2].ToString().Substring(1).ToString()
                             };
                             recordsToAdd.Add(recToAdd);
@@ -298,7 +298,7 @@ namespace LogConverterFramework.Services
                         }).ToList();
                 }
 
-                 return log;
+                return log;
             }
             catch (Exception exception)
             {

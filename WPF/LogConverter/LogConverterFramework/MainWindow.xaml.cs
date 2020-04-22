@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -38,7 +37,7 @@ namespace LogConverterFramework
             try
             {
                 TxtStatus.Text = $"Starting...";
-                Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+                Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
 
                 ShowSpinner();
 
@@ -54,36 +53,36 @@ namespace LogConverterFramework
                     try
                     {
                         TxtStatus.Text = $"Processing file #{k} -- {textFile}";
-                        Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+                        Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
 
                         var logData = _excelSrvc.ReadLogData(textFile);
                         if (_excelSrvc.SaveLogExcel(logData))
                         {
                             lbConvertedFiles.Items.Add(logData.FilePath);
                             lbFiles.Items.RemoveAt(lbFiles.Items.IndexOf(textFile));
-                            Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+                            Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
                         }
                         else
                         {
                             lbErrors.Items.Add($"Error converting {textFile}");
-                            Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+                            Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
                         }
                     }
                     catch
                     {
                         lbErrors.Items.Add($"Error converting {textFile}");
-                        Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+                        Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
                     }
 
                     lbFiles.Items.Refresh();
-                    Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+                    Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
                     k++;
                 }
 
                 HideSpinner();
 
                 TxtStatus.Text = $"Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
-                Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+                Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
 
             }
             catch (Exception exception)
@@ -98,7 +97,7 @@ namespace LogConverterFramework
             Dispatcher.Invoke(() =>
             {
                 icoRefresh.Visibility = Visibility.Hidden;
-            }, DispatcherPriority.Background);
+            }, DispatcherPriority.Render);
         }
 
         private void ShowSpinner()
@@ -107,7 +106,7 @@ namespace LogConverterFramework
             {
                 icoRefresh.Visibility = Visibility.Visible;
                 icoRefresh.Spin = true;
-            }, DispatcherPriority.Background);
+            }, DispatcherPriority.Render);
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
