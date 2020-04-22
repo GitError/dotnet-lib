@@ -37,11 +37,19 @@ namespace LogConverterFramework
         {
             try
             {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    BtnConvert.IsEnabled = false;
+                }), DispatcherPriority.Render);
+
                 BtnConvert.IsEnabled = false;
 
                 StartTask();
-            
-                BtnConvert.IsEnabled = true;
+
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    BtnConvert.IsEnabled = true;
+                }), DispatcherPriority.Render);
             }
             catch (Exception exception)
             {
