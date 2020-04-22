@@ -56,8 +56,13 @@ namespace LogConverterCore
 
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-            Application.Current.Shutdown();
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                lbConvertedFiles.Items.Clear();
+                lbErrors.Items.Clear();
+                lbFiles.Items.Clear();
+                TxtStatus.Text = string.Empty;
+            }), DispatcherPriority.Background);
         }
 
         private async void StartTask()
@@ -113,7 +118,7 @@ namespace LogConverterCore
             }
             catch (Exception exception)
             {
-                Console.Write(exception.ToString());
+                TxtStatus.Text = exception.ToString();
             }
         }
 
