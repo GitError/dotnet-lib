@@ -65,16 +65,6 @@ namespace LogConverterFramework
             icoRefresh.Visibility = Visibility.Visible;
             icoRefresh.Spin = true;
 
-            TxtStatus.Text = "Waiting for task to complete...";
-
-            await Task.Run(() => ConvertLogs());
-
-            TxtStatus.Text = $"Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
-            icoRefresh.Visibility = Visibility.Hidden;
-        }
-
-        private void ConvertLogs()
-        {
             var items = new List<string>();
             foreach (var i in lbFiles.Items)
             {
@@ -86,36 +76,44 @@ namespace LogConverterFramework
             {
                 try
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        TxtStatus.Text = $"Processing file #{k} -- {textFile}";
-                    }), DispatcherPriority.Background);
-
-                    var logData = _excelSrvc.ReadLogData(textFile);
-                    if (_excelSrvc.SaveLogExcel(logData))
-                    {
-                        Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            lbConvertedFiles.Items.Add(logData.FilePath);
-                            lbFiles.Items.RemoveAt(lbFiles.Items.IndexOf(textFile));
-                        }), DispatcherPriority.Background);
-                    }
-                    else
-                    {
-                        Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            lbErrors.Items.Add($"Error converting {textFile}");
-                        }), DispatcherPriority.Background);
-                    }
+                    TxtStatus.Text = $"Processing file #{k} -- {textFile}";
+                    await Task.Run(() => ConvertLogs(textFile));
                 }
                 catch
+                {
+                    lbErrors.Items.Add($"Error converting {textFile}");
+                }
+                k++;
+            }
+
+            TxtStatus.Text = $"Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
+            icoRefresh.Visibility = Visibility.Hidden;
+        }
+
+        private void ConvertLogs(string textFile)
+        {
+            try
+            {
+                var logData = _excelSrvc.ReadLogData(textFile);
+                if (_excelSrvc.SaveLogExcel(logData))
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        lbConvertedFiles.Items.Add(logData.FilePath);
+                        lbFiles.Items.RemoveAt(lbFiles.Items.IndexOf(textFile));
+                    }), DispatcherPriority.Background);
+                }
+                else
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
                         lbErrors.Items.Add($"Error converting {textFile}");
                     }), DispatcherPriority.Background);
                 }
-                k++;
+            }
+            catch(Exception exception)
+            {
+                Console.Write(exception.ToString());
             }
         }
 
