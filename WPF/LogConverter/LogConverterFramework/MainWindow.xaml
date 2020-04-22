@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LogConverterFramework"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="Convert to Excel" Height="635" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+        Title="Convert to Excel" Height="640" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
 
     <Grid Margin="10,0,10,0" Height="620">
         <Grid.ColumnDefinitions>
@@ -23,7 +23,7 @@
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
-        <Button  Name="BtnOpenFile" Click="BtnOpenFiles_Click" Content="SELECT FILES..." Grid.ColumnSpan="2" Height="25" Background="#FF52B5EE" />
+        <Button Name="BtnOpenFile" Click="BtnOpenFiles_Click" Content="SELECT FILES..." Grid.ColumnSpan="2" Height="25" Background="#FF52B5EE" />
 
         <Label Grid.Row="1" FontWeight="Bold">Selected</Label>
         <ListBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,5" Name="lbFiles" Background="#FFEAF0F3"  />
@@ -31,7 +31,6 @@
         <Button Grid.Row ="2"  Name="BtnConvert" Click="BtnConvert_Click" Content="CONVERT" Grid.ColumnSpan="2" Height="25" Background="#FF75C95C" />
 
         <TextBlock Grid.Row="3" Grid.Column="2" Name="TxtStatus" Height="18" TextAlignment="Center" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Bold" />
-
 
         <Label Grid.Row="4" FontWeight="Bold">Converted</Label>
         <ListBox Grid.Row="4" Grid.Column="1" Margin="0,0,0,5" Name="lbConvertedFiles" Background="#FFE5FFEB"  />
@@ -46,6 +45,6 @@
         <Button Grid.Row ="6" Grid.Column="1"  Name="BtnClose" Click="BtnClose_Click" Content="EXIT" Grid.ColumnSpan="1" Background="{x:Null}" Margin="0,0,0,-19" HorizontalAlignment="Right" Width="69" FontWeight="Bold" />
 
         <fa:ImageAwesome x:Name="icoRefresh" Icon="Spinner" Visibility="Hidden" Grid.Row="4" Grid.Column="2" Spin="True" Height="64" Width="64" />
-        
+
     </Grid>
 </Window>

@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace LogConverterCore
 {
     public partial class MainWindow : Window
     {
-        Services.ExcelService _excelSrvc = new Services.ExcelService();
+        private readonly Services.ExcelService _excelSrvc = new Services.ExcelService();
 
         public MainWindow()
         {
@@ -35,41 +37,15 @@ namespace LogConverterCore
         {
             try
             {
-                var items = new List<string>();
-                foreach (var i in lbFiles.Items)
-                {
-                    items.Add(i.ToString());
-                }
-
-                foreach (string textFile in items)
-                {
-                    try
-                    {
-                        var logData = _excelSrvc.ReadLogData(textFile);
-
-                        TxtStatus.Text = $"Processing... {logData.FilePath}";
-
-                        if (_excelSrvc.SaveLogExcel(logData))
-                        {
-                            lbConvertedFiles.Items.Add(logData.FilePath);
-                            lbFiles.Items.RemoveAt(lbFiles.Items.IndexOf(textFile));
-                        }
-                        else
-                        {
-                            lbErrors.Items.Add($"Error converting {textFile}");
-                        }
-                    }
-                    catch
-                    {
-                        lbErrors.Items.Add($"Error converting {textFile}");
-                    }
-                    lbFiles.Items.Refresh();
-                }
-                TxtStatus.Text = $"Done! Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
+                StartTask();
             }
             catch (Exception exception)
             {
-                lblStatus.Content = "Error: " + exception.Message;
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    lblStatus.Content = "Error: " + exception.Message;
+                    icoRefresh.Visibility = Visibility.Hidden;
+                }), DispatcherPriority.Background);
             }
         }
 
@@ -83,5 +59,65 @@ namespace LogConverterCore
             System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
         }
+
+        private async void StartTask()
+        {
+            icoRefresh.Visibility = Visibility.Visible;
+            icoRefresh.Spin = true;
+
+            TxtStatus.Text = "Waiting for task to complete...";
+
+            await Task.Run(() => ConvertLogs());
+
+            TxtStatus.Text = $"Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
+            icoRefresh.Visibility = Visibility.Hidden;
+        }
+
+        private void ConvertLogs()
+        {
+            var items = new List<string>();
+            foreach (var i in lbFiles.Items)
+            {
+                items.Add(i.ToString());
+            }
+
+            int k = 1;
+            foreach (string textFile in items)
+            {
+                try
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        TxtStatus.Text = $"Processing file #{k} -- {textFile}";
+                    }), DispatcherPriority.Background);
+
+                    var logData = _excelSrvc.ReadLogData(textFile);
+                    if (_excelSrvc.SaveLogExcel(logData))
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            lbConvertedFiles.Items.Add(logData.FilePath);
+                            lbFiles.Items.RemoveAt(lbFiles.Items.IndexOf(textFile));
+                        }), DispatcherPriority.Background);
+                    }
+                    else
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            lbErrors.Items.Add($"Error converting {textFile}");
+                        }), DispatcherPriority.Background);
+                    }
+                }
+                catch
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        lbErrors.Items.Add($"Error converting {textFile}");
+                    }), DispatcherPriority.Background);
+                }
+                k++;
+            }
+        }
+
     }
 }

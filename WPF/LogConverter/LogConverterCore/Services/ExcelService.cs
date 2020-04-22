@@ -194,6 +194,7 @@ namespace LogConverterCore.Services
                 int asInt = 0;
 
                 var hasSummary = File.ReadLines(filePath).Any(x => x.Contains(AppConfig.Parsing.SummarySheetEndLine));
+
                 if (hasSummary)
                 {
                     log.HasSummary = true;
@@ -211,6 +212,7 @@ namespace LogConverterCore.Services
                     log.Summary.Description = summaryData[2].ToString().Substring(2);
 
                     var recordsToAdd = new List<Study>();
+
                     foreach (var record in summaryData.Skip(5).ToList())
                     {
                         var eventHeader = AppConfig.Parsing.EventHeader.Match(record);
@@ -222,7 +224,7 @@ namespace LogConverterCore.Services
                             var recToAdd = new Study
                             {
                                 Id = int.TryParse(data[0].Substring(3, data[0].Length - 9), out asInt) ? asInt : 0,
-                                Name = data[1].ToString().Substring(1, data[1].Substring(1).IndexOf(" ") - 1),
+                                Name = data[1].ToString().Substring(1, data[1].Substring(1).IndexOf(" ")),
                                 DataModelName = data[2].ToString().Substring(1).ToString()
                             };
                             recordsToAdd.Add(recToAdd);
