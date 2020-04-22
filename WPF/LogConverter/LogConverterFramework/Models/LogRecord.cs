@@ -8,6 +8,8 @@
 
         public string DataModel { get; set; }
 
+        public string LC { get; set; }
+
         public int? JobId { get; set; }
 
         public string LoadStep { get; set; }

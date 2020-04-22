@@ -114,6 +114,7 @@ namespace LogConverterCore.Services
                     INDX = x.Index,
                     STUDY = x.Study,
                     DATA_MODEL = x.DataModel,
+                    LC = x.LC,
                     JOB_ID = x.JobId,
                     LOAD_STEP = x.LoadStep,
                     STATUS = x.Status,
@@ -279,26 +280,26 @@ namespace LogConverterCore.Services
                             Index = TryParseNullable(x[0]),
                             Study = x[1],
                             DataModel = x[2],
-                            JobId = TryParseNullable(x[3]),
-                            LoadStep = x[4],
-                            Status = x[5],
-                            StartTime = x[6],
-                            EndTime = x[7],
-                            RunTime = x[8],
-                            LockTime = x[9],
-                            TotalTime = x[10],
-                            Refreshed = TryParseNullable(x[11]),
-                            Inserted = TryParseNullable(x[12]),
-                            Updated = TryParseNullable(x[13]),
-                            Deleted = TryParseNullable(x[14]),
-                            TotalInsertsUpdatedDeletes = TryParseNullable(x[15]),
-                            TotalRecords = TryParseNullable(x[16]),
-                            I_U_D_SEC = TryParseNullable(x[17]),
-                            TotalSeconds = TryParseNullable(x[18]),
-                            LoadedSeconds = TryParseNullable(x[19])
+                            LC = x[3],
+                            JobId = TryParseNullable(x[4]),
+                            LoadStep = x[5],
+                            Status = x[6],
+                            StartTime = x[7],
+                            EndTime = x[8],
+                            RunTime = x[9],
+                            LockTime = x[10],
+                            TotalTime = x[11],
+                            Refreshed = TryParseNullable(x[12]),
+                            Inserted = TryParseNullable(x[13]),
+                            Updated = TryParseNullable(x[14]),
+                            Deleted = TryParseNullable(x[15]),
+                            TotalInsertsUpdatedDeletes = TryParseNullable(x[16]),
+                            TotalRecords = TryParseNullable(x[17]),
+                            I_U_D_SEC = TryParseNullable(x[18]),
+                            TotalSeconds = TryParseNullable(x[19]),
+                            LoadedSeconds = TryParseNullable(x[20])
                         }).ToList();
                 }
-
                 return log;
             }
             catch (Exception exception)
