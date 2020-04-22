@@ -36,10 +36,11 @@ namespace LogConverterFramework
         {
             try
             {
-                TxtStatus.Text = $"Starting...";
-                Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
-
-                ShowSpinner();
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    icoRefresh.Visibility = Visibility.Visible;
+                    icoRefresh.Spin = true;
+                }), DispatcherPriority.Background);
 
                 var items = new List<string>();
                 foreach (var i in lbFiles.Items)
@@ -52,62 +53,63 @@ namespace LogConverterFramework
                 {
                     try
                     {
-                        TxtStatus.Text = $"Processing file #{k} -- {textFile}";
-                        Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            TxtStatus.Text = $"Processing file #{k} -- {textFile}";
+                        }), DispatcherPriority.Background);
 
                         var logData = _excelSrvc.ReadLogData(textFile);
                         if (_excelSrvc.SaveLogExcel(logData))
                         {
-                            lbConvertedFiles.Items.Add(logData.FilePath);
-                            lbFiles.Items.RemoveAt(lbFiles.Items.IndexOf(textFile));
-                            Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
+                            Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                lbConvertedFiles.Items.Add(logData.FilePath);
+                                lbFiles.Items.RemoveAt(lbFiles.Items.IndexOf(textFile));
+                            }), DispatcherPriority.Background);
                         }
                         else
                         {
-                            lbErrors.Items.Add($"Error converting {textFile}");
-                            Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
+                            Dispatcher.BeginInvoke(new Action(() =>
+                            {
+                                lbErrors.Items.Add($"Error converting {textFile}");
+                            }), DispatcherPriority.Background);
                         }
                     }
                     catch
                     {
-                        lbErrors.Items.Add($"Error converting {textFile}");
-                        Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            lbErrors.Items.Add($"Error converting {textFile}");
+                        }), DispatcherPriority.Background);
                     }
 
                     lbFiles.Items.Refresh();
-                    Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
+                    Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
                     k++;
                 }
 
-                HideSpinner();
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    icoRefresh.Visibility = Visibility.Hidden;
+                }), DispatcherPriority.Background);
 
-                TxtStatus.Text = $"Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
-                Dispatcher.Invoke(() => { }, DispatcherPriority.Render);
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    TxtStatus.Text = $"Successfully Converted: {lbConvertedFiles.Items.Count}, Failures: {lbErrors.Items.Count}";
+                }), DispatcherPriority.Background);
 
             }
             catch (Exception exception)
             {
                 lblStatus.Content = "Error: " + exception.Message;
-                HideSpinner();
+
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    icoRefresh.Visibility = Visibility.Hidden;
+                }), DispatcherPriority.Background);
             }
         }
 
-        private void HideSpinner()
-        {
-            Dispatcher.Invoke(() =>
-            {
-                icoRefresh.Visibility = Visibility.Hidden;
-            }, DispatcherPriority.Render);
-        }
-
-        private void ShowSpinner()
-        {
-            Dispatcher.Invoke(() =>
-            {
-                icoRefresh.Visibility = Visibility.Visible;
-                icoRefresh.Spin = true;
-            }, DispatcherPriority.Render);
-        }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
