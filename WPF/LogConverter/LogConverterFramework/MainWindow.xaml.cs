@@ -37,7 +37,11 @@ namespace LogConverterFramework
         {
             try
             {
+                BtnConvert.IsEnabled = false;
+
                 StartTask();
+            
+                BtnConvert.IsEnabled = false;
             }
             catch (Exception exception)
             {
