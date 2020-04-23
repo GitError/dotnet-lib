@@ -168,9 +168,8 @@ namespace LogConverterFramework.Services
                 dat_ws.Cell(1, 1).InsertTable(vm.ToList()).Theme = XLTableTheme.TableStyleLight1;
 
 
-                dat_ws.Columns("I:Q").Style.NumberFormat.NumberFormatId = 3;
-                dat_ws.Columns("I:K").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
-                dat_ws.Columns("L:T").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+                dat_ws.Columns("J:U").Style.NumberFormat.NumberFormatId = 3;
+                dat_ws.Columns("J:U").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
                 dat_ws.Columns("A").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
 
                 dat_ws.Columns().AdjustToContents();
