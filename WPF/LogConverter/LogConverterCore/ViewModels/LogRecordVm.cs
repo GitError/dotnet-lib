@@ -26,19 +26,19 @@
 
         public string TOTAL_TIME { get; set; }
 
-        public int? REFRESHED { get; set; }
+        public int? REFRSH { get; set; }
 
-        public int? INSERTED { get; set; }
+        public int? INS { get; set; }
 
-        public int? UPDATED { get; set; }
+        public int? UPD { get; set; }
 
-        public int? DELETED { get; set; }
+        public int? DEL { get; set; }
 
-        public int? TOTAL_I_U_D { get; set; }
+        public int? TOTAL_IUD { get; set; }
 
-        public int? TOTAL_RECORDS { get; set; }
+        public int? TOTAL_REC { get; set; }
 
-        public int? I_U_D_SEC { get; set; }
+        public int? IUD_SEC { get; set; }
 
         public int? TOTAL_SEC { get; set; }
 

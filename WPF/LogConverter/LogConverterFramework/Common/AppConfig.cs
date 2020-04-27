@@ -18,6 +18,7 @@ namespace LogConverterFramework.Common
         {
             public static char LogDataDelimiter = ',';
             public static char NewStudyDelimiter = '#';
+            public static string ChildNodeIndicator = "..";
 
             public static string RequiredPartialHeader = "STUDY,";
 

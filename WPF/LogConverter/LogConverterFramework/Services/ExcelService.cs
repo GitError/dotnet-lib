@@ -122,13 +122,13 @@ namespace LogConverterFramework.Services
                     RUN_TIME = x.RunTime,
                     LOCK_TIME = x.LockTime,
                     TOTAL_TIME = x.TotalTime,
-                    REFRESHED = x.Refreshed,
-                    INSERTED = x.Inserted,
-                    UPDATED = x.Updated,
-                    DELETED = x.Deleted,
-                    TOTAL_I_U_D = x.TotalInsertsUpdatedDeletes,
-                    TOTAL_RECORDS = x.TotalRecords,
-                    I_U_D_SEC = x.I_U_D_SEC,
+                    REFRSH = x.Refreshed,
+                    INS = x.Inserted,
+                    UPD = x.Updated,
+                    DEL = x.Deleted,
+                    TOTAL_IUD = x.TotalInsertsUpdatedDeletes,
+                    TOTAL_REC = x.TotalRecords,
+                    IUD_SEC = x.I_U_D_SEC,
                     TOTAL_SEC = x.TotalSeconds,
                     LOADED_SEC = x.LoadedSeconds,
                 });
@@ -140,7 +140,7 @@ namespace LogConverterFramework.Services
                 {
                     if (record.LoadStep != string.Empty)
                     {
-                        if (!record.LoadStep.Substring(0, 2).Contains(".."))
+                        if (!record.LoadStep.Substring(0, 2).Contains(AppConfig.Parsing.ChildNodeIndicator))
                         {
                             dataGroups.Add(new DataGroupVm
                             {
