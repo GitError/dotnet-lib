@@ -9,7 +9,7 @@
 - :ballot_box_with_check: Learning C# Algorithms (Reynald Adolphe)
 - :ballot_box_with_check: C# Design Patterns: Part 1 (Reynald Adolphe)
 - :ballot_box_with_check: Nail Your C# Developer Interview (Reynald Adolphe)
-- [-WIP-] Code Clinic: C# (Anton Delsink)
+- :pause_button: Code Clinic: C# (Anton Delsink)
 
 ### ASP.NET Core Modules
 
