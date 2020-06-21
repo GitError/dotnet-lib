@@ -27,6 +27,6 @@ Middleware workflow approval app that takes excel data sets via webapp uploads a
 
 ### Study Notes/ Tutorials
 
-- :link: [Pluralsight - C#, .NET Core Paths](Learn/PluralSight/)
-- :link: [Udemy - Design Patterns in C# and .NET ](Learn/LinkedIn/)
-- :link: [Udemy - C#, .NET Core Paths](Learn/Udemy/)
+- :link: [Pluralsight Paths](Learn/PluralSight/)
+- :link: [LinkedIn Paths](Learn/LinkedIn/)
+- :link: [Udemy Paths](Learn/Udemy/)
